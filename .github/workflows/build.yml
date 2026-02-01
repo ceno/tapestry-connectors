@@ -1,0 +1,24 @@
+name: Build x.feed
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Inject build number into plugin-config.json
+        run: jq --argjson v ${{ github.run_number }} '.version = $v' x.feed/plugin-config.json > tmp.json && mv tmp.json x.feed/plugin-config.json
+
+      - name: Build x.feed.tapestry
+        run: ./build.sh x.feed
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: x.feed.tapestry
+          path: x.feed.tapestry
