@@ -61,6 +61,27 @@ function extractVideoUrlFromPage(html) {
     return null;
 }
 
+// Extract all image URLs from <img> tags in HTML content
+// Returns an array of image URLs (may be empty if no images found)
+function extractImagesFromHtml(content) {
+    if (!content) return [];
+    
+    const images = [];
+    const imgRegex = /<img\s+[^>]*src=["']([^"']+)["'][^>]*>/g;
+    let match;
+    
+    while ((match = imgRegex.exec(content)) !== null) {
+        let imgUrl = match[1];
+        // Fix encoded ampersands
+        if (imgUrl.includes("&amp;")) {
+            imgUrl = imgUrl.replaceAll("&amp;", "&");
+        }
+        images.push(imgUrl);
+    }
+    
+    return images;
+}
+
 // Extract the first external link from HTML content that isn't on the same domain as the feed
 function extractExternalLinkFromContent(content, feedUrl) {
     if (!content || !feedUrl) return null;
@@ -466,6 +487,15 @@ function xload(jsonObject) {
                     attachments.push(attachment);
                 }
             }
+            else {
+                // Fallback: extract <img> tags from HTML description
+                const imageUrls = extractImagesFromHtml(rawContent);
+                for (const imgUrl of imageUrls) {
+                    let attachment = MediaAttachment.createWithUrl(imgUrl);
+                    attachment.mimeType = "image";
+                    attachments.push(attachment);
+                }
+            }
             
             // add link attachment for link that isn't on this site (e.g. a link blog)
             // but only if there isn't media already attached
@@ -601,6 +631,7 @@ if (typeof module !== 'undefined' && module.exports) {
         extractString, 
         attachmentForAttributes,
         extractVideoInfo,
-        extractExternalLinkFromContent
+        extractExternalLinkFromContent,
+        extractImagesFromHtml
     };
 }
