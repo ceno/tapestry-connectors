@@ -1,5 +1,17 @@
 // x-shared.js - Shared feed parsing logic for X feeds
 
+// Normalize URLs to prevent duplicates from xcancel.com vs rss.xcancel.com
+function normalizeXCancelUrl(url) {
+    if (url && typeof url === 'string') {
+        // Only normalize if the URL starts with https://rss.xcancel.com/
+        // This ensures we're replacing the hostname, not arbitrary text in the URL
+        if (url.startsWith("https://rss.xcancel.com/") || url.startsWith("http://rss.xcancel.com/")) {
+            return url.replace("://rss.xcancel.com/", "://xcancel.com/");
+        }
+    }
+    return url;
+}
+
 function attachmentForAttributes(mediaAttributes) {
     let attachment = null;
     if (mediaAttributes != null && mediaAttributes.url != null) {
@@ -232,6 +244,8 @@ function xload(jsonObject) {
             }
 
             let url = entryUrl;
+            // Normalize xcancel URLs to prevent duplicates
+            url = normalizeXCancelUrl(url);
             if (true) { // NOTE: If this causes problems, we can put it behind a setting.
                 const urlClean = url.split("?").splice(0,1).join();
                 const urlParameters = url.split("?").splice(1).join("?");
@@ -370,6 +384,8 @@ function xload(jsonObject) {
             const date = (itemDate == null ? new Date() : new Date(itemDate));
             
             let url = item.link;
+            // Normalize xcancel URLs to prevent duplicates
+            url = normalizeXCancelUrl(url);
             if (true) { // NOTE: If this causes problems, we can put it behind a setting.
                 const urlClean = url.split("?").splice(0,1).join();
                 const urlParameters = url.split("?").splice(1).join("?");
@@ -417,7 +433,7 @@ function xload(jsonObject) {
                 if (item.link) {
                     const linkParts = item.link.split("/");
                     if (linkParts.length >= 4) {
-                        identity.uri = linkParts.slice(0, 4).join("/"); // e.g., https://xcancel.com/digitarald
+                        identity.uri = normalizeXCancelUrl(linkParts.slice(0, 4).join("/")); // e.g., https://xcancel.com/digitarald
                         // If this post is from the feed owner, use the channel image as avatar
                         if (channelImage && feedUrl) {
                             const feedOwner = feedUrl.split("/").pop(); // e.g., "pierceboggan"
@@ -545,6 +561,8 @@ function xload(jsonObject) {
             }
             
             let url = item.link;
+            // Normalize xcancel URLs to prevent duplicates
+            url = normalizeXCancelUrl(url);
             if (true) { // NOTE: If this causes problems, we can put it behind a setting.
                 const urlClean = url.split("?").splice(0,1).join();
                 const urlParameters = url.split("?").splice(1).join("?");
@@ -632,6 +650,7 @@ if (typeof module !== 'undefined' && module.exports) {
         attachmentForAttributes,
         extractVideoInfo,
         extractExternalLinkFromContent,
-        extractImagesFromHtml
+        extractImagesFromHtml,
+        normalizeXCancelUrl
     };
 }
