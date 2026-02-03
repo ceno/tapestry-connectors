@@ -32,7 +32,7 @@ describe('Link Extraction', () => {
         expect(item.attachments.length).toBeGreaterThan(0);
         
         // Should have both media and link attachments
-        const mediaAttachments = item.attachments.filter(a => a.mimeType === 'image');
+        const mediaAttachments = item.attachments.filter(a => a.mimeType && a.mimeType.startsWith('image'));
         const linkAttachments = item.attachments.filter(a => a.url && !a.mimeType);
         
         expect(mediaAttachments.length).toBeGreaterThan(0);
