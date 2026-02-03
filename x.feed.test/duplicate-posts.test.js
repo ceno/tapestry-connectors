@@ -23,6 +23,19 @@ describe('normalizeXCancelUrl', () => {
         expect(normalizeXCancelUrl(null)).toBeNull();
         expect(normalizeXCancelUrl(undefined)).toBeUndefined();
     });
+
+    test('should not replace rss.xcancel.com if it appears in URL path or query', () => {
+        // Ensure we only replace the hostname, not arbitrary text in the URL
+        const input = 'https://example.com/redirect?url=https://rss.xcancel.com/user/status/123';
+        expect(normalizeXCancelUrl(input)).toBe(input);
+    });
+
+    test('should work with both http and https', () => {
+        const httpsInput = 'https://rss.xcancel.com/user/status/123';
+        const httpInput = 'http://rss.xcancel.com/user/status/123';
+        expect(normalizeXCancelUrl(httpsInput)).toBe('https://xcancel.com/user/status/123');
+        expect(normalizeXCancelUrl(httpInput)).toBe('http://xcancel.com/user/status/123');
+    });
 });
 
 describe('xload with RSS 2.0 feed containing duplicates', () => {

@@ -2,8 +2,12 @@
 
 // Normalize URLs to prevent duplicates from xcancel.com vs rss.xcancel.com
 function normalizeXCancelUrl(url) {
-    if (url && url.includes("rss.xcancel.com")) {
-        return url.replace("rss.xcancel.com", "xcancel.com");
+    if (url && typeof url === 'string') {
+        // Only normalize if the URL starts with https://rss.xcancel.com/
+        // This ensures we're replacing the hostname, not arbitrary text in the URL
+        if (url.startsWith("https://rss.xcancel.com/") || url.startsWith("http://rss.xcancel.com/")) {
+            return url.replace("://rss.xcancel.com/", "://xcancel.com/");
+        }
     }
     return url;
 }
