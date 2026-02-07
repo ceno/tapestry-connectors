@@ -1,5 +1,14 @@
 // x-shared.js - Shared feed parsing logic for X feeds
 
+// Get avatar URL for a Twitter/X username using unavatar.io
+// This service resolves profile pictures without requiring API calls
+function getAvatarUrl(username) {
+    if (!username) return null;
+    // Remove @ prefix if present
+    const cleanUsername = username.startsWith('@') ? username.substring(1) : username;
+    return `https://unavatar.io/twitter/${cleanUsername}`;
+}
+
 // Normalize URLs to prevent duplicates from xcancel.com vs rss.xcancel.com
 function normalizeXCancelUrl(url) {
     if (url && typeof url === 'string') {
@@ -440,6 +449,14 @@ function xload(jsonObject) {
                             if (displayName.toLowerCase() === feedOwner.toLowerCase()) {
                                 identity.avatar = channelImage;
                             }
+                            else {
+                                // For other authors (e.g., in retweets), use unavatar.io
+                                identity.avatar = getAvatarUrl(displayName);
+                            }
+                        }
+                        else {
+                            // No channel image available, use unavatar.io
+                            identity.avatar = getAvatarUrl(displayName);
                         }
                     }
                 }
@@ -465,7 +482,7 @@ function xload(jsonObject) {
             // Since we can't fetch the actual video URL, create a LinkAttachment to the status page
             const videoInfo = extractVideoInfo(rawContent, item.link);
             if (videoInfo) {
-                let linkAttachment = LinkAttachment.createWithUrl(videoInfo.statusPageUrl);
+                let linkAttachment = LinkAttachment.createWithUrl(normalizeXCancelUrl(videoInfo.statusPageUrl));
                 linkAttachment.title = "Video";
                 if (videoInfo.thumbnailUrl) {
                     linkAttachment.image = videoInfo.thumbnailUrl;
