@@ -73,6 +73,37 @@ function extractVideoUrlFromPage(html) {
     return null;
 }
 
+// Extract profile avatar image from HTML content (for author avatars in posts)
+// Returns the avatar URL or null if not found
+// Profile avatars are typically small, rounded images that appear before the content
+function extractProfileAvatarFromHtml(content) {
+    if (!content) return null;
+    
+    // Look for img tags with border-radius:50% (circular avatars)
+    // This is a common pattern in social media feeds
+    const roundedImgMatch = content.match(/<img[^>]*border-radius\s*:\s*50%[^>]*src=["']([^"']+)["'][^>]*>/i);
+    if (roundedImgMatch) {
+        let imgUrl = roundedImgMatch[1];
+        if (imgUrl.includes("&amp;")) {
+            imgUrl = imgUrl.replaceAll("&amp;", "&");
+        }
+        return imgUrl;
+    }
+    
+    // Look for small square images at the beginning (typical avatar size: 40-50px)
+    // that contain "profile_images" in the URL (Twitter/X profile pattern)
+    const profileImgMatch = content.match(/<img[^>]*src=["']([^"']*profile_images[^"']*)["'][^>]*>/i);
+    if (profileImgMatch) {
+        let imgUrl = profileImgMatch[1];
+        if (imgUrl.includes("&amp;")) {
+            imgUrl = imgUrl.replaceAll("&amp;", "&");
+        }
+        return imgUrl;
+    }
+    
+    return null;
+}
+
 // Extract all image URLs from <img> tags in HTML content
 // Returns an array of image URLs (may be empty if no images found)
 function extractImagesFromHtml(content) {
@@ -441,6 +472,16 @@ function xload(jsonObject) {
                                 identity.avatar = channelImage;
                             }
                         }
+                        
+                        // For retweets or posts where avatar wasn't set from channel image,
+                        // try to extract the profile avatar from the HTML content
+                        if (!identity.avatar && content) {
+                            const rawContent = item["content:encoded"] ?? item.description;
+                            const extractedAvatar = extractProfileAvatarFromHtml(rawContent);
+                            if (extractedAvatar) {
+                                identity.avatar = extractedAvatar;
+                            }
+                        }
                     }
                 }
             }
@@ -652,6 +693,7 @@ if (typeof module !== 'undefined' && module.exports) {
         extractVideoInfo,
         extractExternalLinkFromContent,
         extractImagesFromHtml,
+        extractProfileAvatarFromHtml,
         normalizeXCancelUrl
     };
 }
