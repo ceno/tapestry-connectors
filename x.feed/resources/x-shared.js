@@ -76,29 +76,32 @@ function extractVideoUrlFromPage(html) {
 // Extract profile avatar image from HTML content (for author avatars in posts)
 // Returns the avatar URL or null if not found
 // Profile avatars are typically small, rounded images that appear before the content
+// @param {string} content - HTML content to search for profile avatar
+// @returns {string|null} - Avatar URL or null if not found
 function extractProfileAvatarFromHtml(content) {
     if (!content) return null;
     
+    // Helper function to decode HTML entities in URLs
+    function decodeUrl(url) {
+        if (url && url.includes("&amp;")) {
+            return url.replaceAll("&amp;", "&");
+        }
+        return url;
+    }
+    
     // Look for img tags with border-radius:50% (circular avatars)
     // This is a common pattern in social media feeds
+    // The regex allows attributes in any order within the img tag
     const roundedImgMatch = content.match(/<img[^>]*border-radius\s*:\s*50%[^>]*src=["']([^"']+)["'][^>]*>/i);
     if (roundedImgMatch) {
-        let imgUrl = roundedImgMatch[1];
-        if (imgUrl.includes("&amp;")) {
-            imgUrl = imgUrl.replaceAll("&amp;", "&");
-        }
-        return imgUrl;
+        return decodeUrl(roundedImgMatch[1]);
     }
     
     // Look for small square images at the beginning (typical avatar size: 40-50px)
     // that contain "profile_images" in the URL (Twitter/X profile pattern)
     const profileImgMatch = content.match(/<img[^>]*src=["']([^"']*profile_images[^"']*)["'][^>]*>/i);
     if (profileImgMatch) {
-        let imgUrl = profileImgMatch[1];
-        if (imgUrl.includes("&amp;")) {
-            imgUrl = imgUrl.replaceAll("&amp;", "&");
-        }
-        return imgUrl;
+        return decodeUrl(profileImgMatch[1]);
     }
     
     return null;
