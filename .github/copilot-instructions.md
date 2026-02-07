@@ -8,7 +8,6 @@ Other connectors in the `examples/` directory (xml.feed, org.joinmastodon.accoun
 
 - `x.feed/` - **PRIMARY DEVELOPMENT TARGET** - X/Twitter feed connector
 - `x.feed.test/` - Test suite for x.feed connector
-- `_shared/` - Shared utility code used by reference examples
 - `examples/` - **REFERENCE ONLY** - Example connectors (xml.feed, org.joinmastodon.account, social.bsky.account)
 - `documentation/` - Tapestry API documentation and user guides
 

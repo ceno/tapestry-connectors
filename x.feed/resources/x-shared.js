@@ -1,5 +1,8 @@
 // x-shared.js - Shared feed parsing logic for X feeds
 
+// Debug flag for conditional logging (set by xload)
+let debugEnabled = false;
+
 // Get avatar URL for a Twitter/X username using unavatar.io
 // This service resolves profile pictures without requiring API calls
 function getAvatarUrl(username) {
@@ -187,15 +190,23 @@ function extractString(node, allowHTML = false) {
             }
         }
         else {
-            console.log(node);
+            if (debugEnabled) {
+                console.log("Debug: Unexpected node type in extractString:");
+                console.log(node);
+            }
         }
     }
     
     return null;
 }
 
-function xload(jsonObject) {
-    console.log(JSON.stringify(jsonObject))
+function xload(jsonObject, debug = false) {
+    debugEnabled = debug;
+    
+    if (debugEnabled) {
+        console.log("Debug: Full JSON object:");
+        console.log(JSON.stringify(jsonObject));
+    }
             
     if (jsonObject.feed != null) {
         // Atom 1.0
@@ -399,7 +410,9 @@ function xload(jsonObject) {
                 const urlClean = url.split("?").splice(0,1).join();
                 const urlParameters = url.split("?").splice(1).join("?");
                 if (urlParameters.includes("utm_id") || urlParameters.includes("utm_source") || urlParameters.includes("utm_medium") || urlParameters.includes("utm_campaign")) {
-                    console.log(`removed parameters: ${urlParameters}`);
+                    if (debugEnabled) {
+                        console.log(`Debug: Removed parameters: ${urlParameters}`);
+                    }
                     url = urlClean;
                 }
             }
@@ -584,7 +597,9 @@ function xload(jsonObject) {
                 const urlClean = url.split("?").splice(0,1).join();
                 const urlParameters = url.split("?").splice(1).join("?");
                 if (urlParameters.includes("utm_id") || urlParameters.includes("utm_source") || urlParameters.includes("utm_medium") || urlParameters.includes("utm_campaign")) {
-                    console.log(`removed parameters: ${urlParameters}`);
+                    if (debugEnabled) {
+                        console.log(`Debug: Removed parameters: ${urlParameters}`);
+                    }
                     url = urlClean;
                 }
             }

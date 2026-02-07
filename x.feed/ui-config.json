@@ -12,6 +12,13 @@
 			"prompt": "Include Retweets",
 			"value": "on",
 			"placeholder": "When enabled, retweets will be shown in your timeline"
+		},
+		{
+			"name": "debug",
+			"type": "switch",
+			"prompt": "Debug Mode",
+			"value": "off",
+			"placeholder": "When enabled, debug information will be logged to the console"
 		}
 	]
 }

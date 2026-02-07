@@ -157,10 +157,18 @@ async function load() {
         return;
     }
     
-    //original xml
-    //console.log(response) 
+    const debugMode = (debug === "on");
+    if (debugMode) {
+        console.log("Debug: Original XML response");
+        console.log(response);
+    }
+    
     let jsonObject = await xmlParse(response);
-    //console.log(jsonObject) 
+    
+    if (debugMode) {
+        console.log("Debug: Parsed JSON object");
+        console.log(jsonObject);
+    }
 
-    processResults(xload(jsonObject));
+    processResults(xload(jsonObject, debugMode));
 }
