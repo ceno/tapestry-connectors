@@ -21,7 +21,7 @@ jobs:
         run: jq --argjson v ${{ github.run_number }} '.version = $v' x.feed/plugin-config.json > tmp.json && mv tmp.json x.feed/plugin-config.json
 
       - name: Build x.feed.tapestry
-        run: ./build.sh x.feed
+        run: make
 
       - name: Upload artifact
         uses: actions/upload-artifact@v6
