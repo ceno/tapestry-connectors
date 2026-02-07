@@ -513,13 +513,12 @@ function xload(jsonObject) {
                 }
             }
             
-            // add link attachment for external links
-            // For X/Twitter posts, always check for external links embedded in the content
-            if (feedUrl != null) {
+            // add link attachment for link that isn't on this site (e.g. a link blog)
+            // but only if there isn't media already attached
+            if (attachments.length == 0 && feedUrl != null) {
                 let linkPrefix = url.split("/").splice(0,3).join("/");
                 let feedPrefix = feedUrl.split("/").splice(0,3).join("/");
                 if (linkPrefix != feedPrefix) {
-                    // This is a link to a different site (e.g. a link blog)
                     let attachment = LinkAttachment.createWithUrl(item["link"]);
                     attachments.push(attachment);
                 }
