@@ -55,7 +55,7 @@ Each connector must include:
 ### CI/CD
 
 - GitHub Actions automatically builds and releases on pushes to main branch
-- Version format: `YYYY.MM.DD`b{build_number}
+- Version format: `YYYY.MM.DDb{build_number}`
 - Releases include the .tapestry package and auto-generated release notes
 
 ## Best Practices
