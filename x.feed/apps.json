@@ -1,0 +1,10 @@
+{
+	"apps": [
+		{
+			"id": "com.atebits.Tweetie2",
+			"name": "X",
+			"template": "https://x.com__PATH__",
+			"pattern": "https://xcancel.com"
+		}
+	]
+}
