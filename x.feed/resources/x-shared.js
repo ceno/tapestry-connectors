@@ -111,6 +111,32 @@ function extractExternalLinkFromContent(content, feedUrl) {
     return null;
 }
 
+// Detect Twitter card images (link preview thumbnails) and pair them with the first external link.
+// Card images use pbs.twimg.com/card_img/ URLs, as opposed to regular tweet images (pbs.twimg.com/media/).
+// Returns { imageUrl, externalLink } or null if no card image or no external link found.
+function extractCardInfo(content, feedUrl) {
+    if (!content || !feedUrl) return null;
+    
+    // Look for a card_img URL in an <img> tag
+    const cardImgMatch = content.match(/src=["']([^"']*pbs\.twimg\.com\/card_img\/[^"']*)["']/);
+    if (!cardImgMatch) return null;
+    
+    let imageUrl = cardImgMatch[1];
+    // Fix encoded ampersands
+    if (imageUrl.includes("&amp;")) {
+        imageUrl = imageUrl.replaceAll("&amp;", "&");
+    }
+    
+    // Find the first external link to pair with this card image
+    const externalLink = extractExternalLinkFromContent(content, feedUrl);
+    if (!externalLink) return null;
+    
+    return {
+        imageUrl: imageUrl,
+        externalLink: externalLink
+    };
+}
+
 function extractString(node, allowHTML = false) {
     // people love to put HTML in title & descriptions, where it's not allowed - this is an
     // imperfect attempt to undo that damage
@@ -313,12 +339,21 @@ function xload(jsonObject, debug = false) {
             // Check for video content first (X/Twitter videos)
             // Since we can't fetch the actual video URL, create a LinkAttachment to the status page
             const videoInfo = extractVideoInfo(rawContent, item.link);
+            // Check for card images (link preview thumbnails from Twitter)
+            // These should become LinkAttachments paired with the external URL they preview
+            const cardInfo = feedUrl ? extractCardInfo(rawContent, feedUrl) : null;
+
             if (videoInfo) {
                 let linkAttachment = LinkAttachment.createWithUrl(normalizeXCancelUrl(videoInfo.statusPageUrl));
                 linkAttachment.title = "Video";
                 if (videoInfo.thumbnailUrl) {
                     linkAttachment.image = videoInfo.thumbnailUrl;
                 }
+                attachments.push(linkAttachment);
+            }
+            else if (cardInfo) {
+                let linkAttachment = LinkAttachment.createWithUrl(cardInfo.externalLink);
+                linkAttachment.image = cardInfo.imageUrl;
                 attachments.push(linkAttachment);
             }
             // extract any media from RSS: https://www.rssboard.org/media-rss
@@ -434,6 +469,7 @@ if (typeof module !== 'undefined' && module.exports) {
         extractString, 
         attachmentForAttributes,
         extractVideoInfo,
+        extractCardInfo,
         extractExternalLinkFromContent,
         extractImagesFromHtml,
         normalizeXCancelUrl
