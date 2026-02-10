@@ -1,25 +1,19 @@
 {
-	"html": [
+	"sites": [
+		"x.com",
+		"twitter.com",
+		"xcancel.com"
+	],
+	"url": [
 		{
-			"element": "link",
-			"check": "type",
-			"match": "/application/(?:rss|atom)\\+xml/",
-			"use": "href",
-			"variable": "site"
+			"extract": "/https://(?:x\\.com|twitter\\.com|xcancel\\.com)/([^/?#]+)/",
+			"variable": "handle"
 		}
 	],
 	"xml": [
 		{
-			"root": "feed",
-			"with": "entry"
-		},
-		{
 			"root": "rss",
 			"with": "item"
-		},
-		{
-			"root": "rdf:RDF",
-			"with": "items"
 		}
 	]
 }

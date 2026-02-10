@@ -65,26 +65,6 @@ function extractVideoInfo(content, itemLink) {
     };
 }
 
-// Extract video source URL from xcancel status page HTML
-// Returns the video mp4 URL or null if not found
-function extractVideoUrlFromPage(html) {
-    if (!html) return null;
-    
-    // Look for the video source element: <source src="https://video.twimg.com/..." type="video/mp4">
-    const sourceMatch = html.match(/<source\s+src=["']([^"']+)["']\s+type=["']video\/mp4["']/);
-    if (sourceMatch) {
-        return sourceMatch[1];
-    }
-    
-    // Also try alternate format where type comes before src
-    const altMatch = html.match(/<source\s+type=["']video\/mp4["']\s+src=["']([^"']+)["']/);
-    if (altMatch) {
-        return altMatch[1];
-    }
-    
-    return null;
-}
-
 // Extract all image URLs from <img> tags in HTML content
 // Returns an array of image URLs (may be empty if no images found)
 function extractImagesFromHtml(content) {
@@ -208,173 +188,7 @@ function xload(jsonObject, debug = false) {
         console.log(JSON.stringify(jsonObject));
     }
             
-    if (jsonObject.feed != null) {
-        // Atom 1.0
-        const feedAttributes = jsonObject.feed.link$attrs;
-        let feedUrl = null;
-        if (feedAttributes instanceof Array) {
-            for (const feedAttribute of feedAttributes) {
-                if (feedAttribute?.rel == "alternate") {
-                    feedUrl = feedAttribute.href;
-                    break;
-                }
-            }
-        }
-        else if (feedAttributes?.rel == "alternate") {
-            feedUrl = feedAttributes.href;
-        } else if (
-            jsonObject.feed.id.startsWith("http://") ||
-            jsonObject.feed.id.startsWith("https://")
-        ) {
-            feedUrl = jsonObject.feed.id
-        }
-        const feedName = jsonObject.feed.title;
-    
-        let entries = [];
-        if (jsonObject.feed.entry != null) {
-            const entry = jsonObject.feed.entry;
-            if (entry instanceof Array) {
-                entries = entry;
-            }
-            else {
-                entries = [entry];
-            }
-        }
-        var results = [];
-        for (const entry of entries) {
-            const entryAttributes = entry.link$attrs;
-            let entryUrl = null;
-            if (entryAttributes instanceof Array) {
-                for (const entryAttribute of entryAttributes) {
-                    if (entryAttribute.rel == "alternate") {
-                        entryUrl = entryAttribute.href;
-                        break;
-                    }
-                }
-                // Posts need to have a link and if we didn't find one
-                // with rel == "alternate" then we'll use the first link.
-                if (!entryUrl && entryAttributes.length > 0) {
-                    entryUrl = entryAttributes[0].href;
-                }
-            }
-            else {
-                if (entryAttributes.rel == "alternate" || entryAttributes.rel == null) {
-                    entryUrl = entryAttributes.href;
-                }
-            }
-
-            let url = entryUrl;
-            // Normalize xcancel URLs to prevent duplicates
-            url = normalizeXCancelUrl(url);
-            if (true) { // NOTE: If this causes problems, we can put it behind a setting.
-                const urlClean = url.split("?").splice(0,1).join();
-                const urlParameters = url.split("?").splice(1).join("?");
-                if (urlParameters.includes("utm_id") || urlParameters.includes("utm_source") || urlParameters.includes("utm_medium") || urlParameters.includes("utm_campaign")) {
-                    console.log(`removed parameters: ${urlParameters}`);
-                    url = urlClean;
-                }
-            }
-
-            let date = null;
-            if (entry.published) {
-                date = new Date(entry.published);
-            }
-            else if (entry.updated) {
-                date = new Date(entry.updated);
-            }
-            else {
-                date = new Date();
-            }
-            const title = extractString(entry.title);
-            
-            let content = ""
-            if (entry.content$attrs != null && entry.content$attrs["type"] == "xhtml") {
-                content = entry.content$xhtml;
-            }
-            else {
-                content = extractString((entry.content ?? entry.summary), true);
-            }
-            
-            var identity = null;
-            if (entry.author != null) {
-                let authorName = entry.author.name;
-                if (authorName != null) {
-                    if (authorName instanceof Array) {
-                        authorName = authorName.join(", ");
-                    }
-                    else {
-                        authorName = authorName.trim();
-                    }
-                    identity = Identity.createWithName(authorName);
-                    if (entry.author.uri != null) {
-                        identity.uri = entry.author.uri;
-                    }
-                }
-            }
-            
-            const resultItem = Item.createWithUriDate(url, date);
-            if (title != null) {
-                resultItem.title = title;
-            }
-            if (content != null) {
-                resultItem.body = content;
-            }
-            if (identity != null) {
-                resultItem.author = identity;
-            }
-            if (entryAttributes instanceof Array) {
-                const attachments = entryAttributes
-                .filter(e => {
-                    if (e.type) {
-                        // Check for a MIME type that suggests this is an image, e.g. image/jpeg.
-                        return e.type.startsWith("image/");
-                    } else {
-                        return false;
-                    }
-                })
-                .map(link => {
-                    const attachment = MediaAttachment.createWithUrl(link.href);
-                    attachment.text = link.title || link.text;
-                    attachment.mimeType = "image";
-                    return attachment;
-                })
-                if (attachments.length > 0) {
-                    resultItem.attachments = attachments;
-                }
-            }
-            else {
-                // extract any media from RSS: https://www.rssboard.org/media-rss
-                if (entry["media:group"] != null) {
-                    const mediaGroup = entry["media:group"];
-
-                    const mediaAttributes = mediaGroup["media:thumbnail$attrs"];
-                    let attachment = attachmentForAttributes(mediaAttributes);
-                    if (attachment != null) {
-                        resultItem.attachments = [attachment];
-                    }
-                }
-                else if (entry["media:thumbnail$attrs"] != null) {
-                    const mediaAttributes = entry["media:thumbnail$attrs"];
-                    let attachment = attachmentForAttributes(mediaAttributes);
-                    if (attachment != null) {
-                        resultItem.attachments = [attachment];
-                    }
-                }
-                else if (entry["media:content$attrs"] != null) {
-                    const mediaAttributes = entry["media:content$attrs"];
-                    let attachment = attachmentForAttributes(mediaAttributes);
-                    if (attachment != null) {
-                        resultItem.attachments = [attachment];
-                    }
-                }
-            }
-
-            results.push(resultItem);
-        }
-
-        return results;
-    }
-    else if (jsonObject.rss != null && jsonObject.rss.channel != null) {
+    if (jsonObject.rss != null && jsonObject.rss.channel != null) {
         // RSS 2.0
         const feedUrl = jsonObject.rss.channel?.link;
         // Try to extract channel owner avatar (for xcancel/X feeds)
@@ -406,19 +220,22 @@ function xload(jsonObject, debug = false) {
             let url = item.link;
             // Normalize xcancel URLs to prevent duplicates
             url = normalizeXCancelUrl(url);
-            if (true) { // NOTE: If this causes problems, we can put it behind a setting.
-                const urlClean = url.split("?").splice(0,1).join();
-                const urlParameters = url.split("?").splice(1).join("?");
-                if (urlParameters.includes("utm_id") || urlParameters.includes("utm_source") || urlParameters.includes("utm_medium") || urlParameters.includes("utm_campaign")) {
-                    if (debugEnabled) {
-                        console.log(`Debug: Removed parameters: ${urlParameters}`);
-                    }
-                    url = urlClean;
+            const urlClean = url.split("?").splice(0,1).join();
+            const urlParameters = url.split("?").splice(1).join("?");
+            if (urlParameters.includes("utm_id") || urlParameters.includes("utm_source") || urlParameters.includes("utm_medium") || urlParameters.includes("utm_campaign")) {
+                if (debugEnabled) {
+                    console.log(`Debug: Removed parameters: ${urlParameters}`);
                 }
+                url = urlClean;
             }
-            
+
             let title = extractString(item.title);
             let content = extractString((item["content:encoded"] ?? item.description), true);
+            if (content) {
+                content = content.replaceAll("https://rss.xcancel.com/", "https://xcancel.com/");
+                // Make quoted tweet author names clickable: <b>Name (@handle)</b> → <a href="..."><b>Name (@handle)</b></a>
+                content = content.replace(/<b>([^<]*?\(@(\w+)\))<\/b>/g, '<a href="https://xcancel.com/$2"><b>$1</b></a>');
+            }
 
             // Check if this is a retweet (title starts with "RT by @username:")
             let annotation = null;
@@ -431,7 +248,8 @@ function xload(jsonObject, debug = false) {
                 const retweeter = retweetMatch[1];
                 annotation = Annotation.createWithText(`${retweeter} Reposted`);
                 // Link to the retweeter's profile
-                annotation.uri = feedUrl; // This links to the feed owner's profile
+                annotation.uri = normalizeXCancelUrl(feedUrl); // This links to the feed owner's profile
+                annotation.icon = "arrow.2.squarepath";
             }
 
             let identity = null;
@@ -566,72 +384,6 @@ function xload(jsonObject, debug = false) {
                 resultItem.attachments = attachments;
             }
             
-            results.push(resultItem);
-        }
-
-        return results;
-    }
-    else if (jsonObject["rdf:RDF"] != null) {
-        // RSS 1.0
-        const feedUrl = jsonObject["rdf:RDF"].channel.link;
-        const feedName = jsonObject["rdf:RDF"].channel.title;
-
-        const item = jsonObject["rdf:RDF"].item;
-        let items = null;
-        if (item instanceof Array) {
-            items = item;
-        }
-        else {
-            items = [item];
-        }
-        var results = [];
-        for (const item of items) {
-            if (item["dc:date"] == null) {
-                continue;
-            }
-            
-            let url = item.link;
-            // Normalize xcancel URLs to prevent duplicates
-            url = normalizeXCancelUrl(url);
-            if (true) { // NOTE: If this causes problems, we can put it behind a setting.
-                const urlClean = url.split("?").splice(0,1).join();
-                const urlParameters = url.split("?").splice(1).join("?");
-                if (urlParameters.includes("utm_id") || urlParameters.includes("utm_source") || urlParameters.includes("utm_medium") || urlParameters.includes("utm_campaign")) {
-                    if (debugEnabled) {
-                        console.log(`Debug: Removed parameters: ${urlParameters}`);
-                    }
-                    url = urlClean;
-                }
-            }
-
-            const date = new Date(item["dc:date"]);
-            let title = extractString(item.title);
-            let content = extractString(item.description, true);
-
-            let identity = null;
-            let authorName = item["dc:creator"];
-            if (authorName != null) {
-                if (authorName instanceof Array) {
-                    authorName = authorName.join(", ");
-                }
-                else {
-                    authorName = authorName.trim();
-                }
-                identity = Identity.createWithName(authorName);
-                identity.uri = feedUrl;
-            }
-            
-            const resultItem = Item.createWithUriDate(url, date);
-            if (title != null) {
-                resultItem.title = title;
-            }
-            if (content != null) {
-                resultItem.body = content;
-            }
-            if (identity != null) {
-                resultItem.author = identity;
-            }
-                
             results.push(resultItem);
         }
 

@@ -1,0 +1,250 @@
+{
+  "rss$attrs": {
+    "xmlns:dc": "http://purl.org/dc/elements/1.1/",
+    "version": "2.0",
+    "xmlns:atom": "http://www.w3.org/2005/Atom"
+  },
+  "rss": {
+    "channel": {
+      "link": "https://xcancel.com/pierceboggan",
+      "atom:link$attrs": {
+        "rel": "self",
+        "type": "application/rss+xml",
+        "href": "https://xcancel.com/pierceboggan/rss"
+      },
+      "item": [
+        {
+          "dc:creator": "@njukidreborn",
+          "description": "<p>Can’t wait for the release. I use <a href=\"https://xcancel.com/excalidraw\" title=\"Excalidraw\">@excalidraw</a> everywhere (in vscode, obsidian and browsers) and finally in the agent loop!</p>\n<hr/>\n<blockquote>\n<b>Oren Melamed (@OrenMe)</b>\n<p>\n<p>Many moons ago I said I’ll release a chat renderer extension with <a href=\"https://xcancel.com/excalidraw\" title=\"Excalidraw\">@excalidraw</a> support for <a href=\"https://xcancel.com/code\" title=\"Visual Studio Code\">@code</a> <br>\n<br>\nThe API went through a lot and now got a bit more stable and even the mermaid support will be coming in next release which uses it<br>\n<br>\nYou should really check it out, this is kind of the foundation behind MCP apps as well, and can allow for really fun and interactive chat experience <br>\n<br>\nWatch out for the release soon</p>\n<a href=\"https://xcancel.com/OrenMe/status/2017334158327173631#m\">\n<br>Video<br>\n  <img src=\"https://pbs.twimg.com/amplify_video_thumb/2017334096427454464/img/PAk2cIaboLY6P7NM.jpg\" style=\"max-width:250px;\" />\n</a>\n\n</p>\n<footer>\n— <cite><a href=\"https://xcancel.com/OrenMe/status/2017334158327173631#m\">https://xcancel.com/OrenMe/status/2017334158327173631#m</a>\n</footer>\n</blockquote>",
+          "link": "https://xcancel.com/njukidreborn/status/2017377968956571708#m",
+          "title": "RT by @pierceboggan: Can’t wait for the release. I use @excalidraw everywhere (in vscode, obsidian and browsers) and finally in the agent loop!",
+          "pubDate": "Fri, 30 Jan 2026 23:22:43 GMT",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "guid": "2017377968956571708"
+        },
+        {
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "guid": "2017344699498172651",
+          "pubDate": "Fri, 30 Jan 2026 21:10:31 GMT",
+          "dc:creator": "@pierceboggan",
+          "link": "https://xcancel.com/pierceboggan/status/2017344699498172651#m",
+          "title": "New in @code Insiders: Interactive mermaid diagrams in Chat.\n\nZoom, pan, and iterate over mermaid diagrams, or open them in the editor when you need more room.\n\n@mattbierner shows you how:",
+          "description": "<p>New in <a href=\"https://xcancel.com/code\" title=\"Visual Studio Code\">@code</a> Insiders: Interactive mermaid diagrams in Chat.<br>\n<br>\nZoom, pan, and iterate over mermaid diagrams, or open them in the editor when you need more room.<br>\n<br>\n<a href=\"https://xcancel.com/mattbierner\" title=\"Matt Bierner 🪦\">@mattbierner</a> shows you how:</p>\n<a href=\"https://xcancel.com/pierceboggan/status/2017344699498172651#m\">\n<br>Video<br>\n  <img src=\"https://pbs.twimg.com/amplify_video_thumb/2017344096675790848/img/VTrID7vZrJuUfz14.jpg\" style=\"max-width:250px;\" />\n</a>"
+        },
+        {
+          "description": "<p>Notice a new habit where I just leave a question or feature idea to VS Code's agent to come back later.<br>\n<br>\nOnce I read it later, I delegate it to the cloud agent to explore further or archive it.<br>\n<br>\n📥 VS Code's agent sessions is my new inbox for \"what if\" and \"how does x work\".</p>\n<img src=\"https://pbs.twimg.com/media/G_7lYp_bEAEiNot.jpg\" style=\"max-width:250px;\" />",
+          "link": "https://xcancel.com/digitarald/status/2017302391750873306#m",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "dc:creator": "@digitarald",
+          "guid": "2017302391750873306",
+          "title": "RT by @pierceboggan: Notice a new habit where I just leave a question or feature idea to VS Code's agent to come back later.\n\nOnce I read it later, I delegate it to the cloud agent to explore further or archive it.\n\n📥 VS Code's agent sessions is my new inbox for \"what if\" and \"how does x work\".",
+          "pubDate": "Fri, 30 Jan 2026 18:22:24 GMT"
+        },
+        {
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "dc:creator": "@burkeholland",
+          "title": "RT by @pierceboggan: 90% of new AI features are not actually useful. I'm sorry. That's just the raw truth. I know I'm not supposed to say that.\n\nBut the 10% that are...those you cannot afford to not know about. Period.",
+          "description": "<p>90% of new AI features are not actually useful. I'm sorry. That's just the raw truth. I know I'm not supposed to say that.<br>\n<br>\nBut the 10% that are...those you cannot afford to not know about. Period.</p>\n<hr/>\n<blockquote>\n<b>Pierce Boggan (@pierceboggan)</b>\n<p>\n<p>\"The past 4 days in Copilot have been a wild ass ride. It's unreal how cracked the new subagents are.\"<br>\n<br>\n<a href=\"https://old.reddit.com/r/GithubCopilot/comments/1qqzknq/subagents_are_now_incredibly_functional_its_wild/\">old.reddit.com/r/GithubCopilot/c…</a></p>\n<img src=\"https://pbs.twimg.com/card_img/2017286962579968003/NGxYGoxA?format=jpg&name=800x419\" style=\"max-width:250px;\" />\n\n</p>\n<footer>\n— <cite><a href=\"https://xcancel.com/pierceboggan/status/2017286960814195052#m\">https://xcancel.com/pierceboggan/status/2017286960814195052#m</a>\n</footer>\n</blockquote>",
+          "link": "https://xcancel.com/burkeholland/status/2017307847311163403#m",
+          "guid": "2017307847311163403",
+          "pubDate": "Fri, 30 Jan 2026 18:44:05 GMT"
+        },
+        {
+          "title": "Join our fantastic community on https://www.reddit.com/r/GithubCopilot/ :)",
+          "dc:creator": "@pierceboggan",
+          "description": "<p>Join our fantastic community on <a href=\"https://old.reddit.com/r/GithubCopilot/\">old.reddit.com/r/GithubCopilot/</a> :)</p>",
+          "guid": "2017287612193767639",
+          "pubDate": "Fri, 30 Jan 2026 17:23:40 GMT",
+          "link": "https://xcancel.com/pierceboggan/status/2017287612193767639#m",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          }
+        },
+        {
+          "pubDate": "Fri, 30 Jan 2026 17:23:25 GMT",
+          "dc:creator": "@pierceboggan",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "description": "<p>and another one! <br>\n<br>\n\"The subagent feature is my favorite improvement all around I think. Not just to speed things up when you're able to parallelize tasks, but it also solves context issues for complex multi step tasks: just include instructions in your prompt to break down the task into stages and spawn a subagent for each step in sequence. This means each subtask has its own context window to work with, which has given me excellent results.\"<br>\n<br>\n<a href=\"https://old.reddit.com/r/GithubCopilot/comments/1qqp9ia/subagents_are_actually_insane/\">old.reddit.com/r/GithubCopilot/c…</a></p>\n<img src=\"https://pbs.twimg.com/card_img/2017287546913624070/2tWVGXP_?format=jpg&name=800x419\" style=\"max-width:250px;\" />",
+          "guid": "2017287546926240142",
+          "title": "and another one! \n\n\"The subagent feature is my favorite improvement all around I think. Not just to speed things up when you're able to parallelize tasks, but it also solves context issues for complex multi step tasks: just include instructions in your prompt to break down the task into stages and spawn a subagent for each step in sequence. This means each subtask has its own context window to work with, which has given me excellent results.\"\n\nhttps://www.reddit.com/r/GithubCopilot/comments/1qqp9ia/subagents_are_actually_insane/",
+          "link": "https://xcancel.com/pierceboggan/status/2017287546926240142#m"
+        },
+        {
+          "pubDate": "Fri, 30 Jan 2026 17:21:05 GMT",
+          "description": "<p>\"The past 4 days in Copilot have been a wild ass ride. It's unreal how cracked the new subagents are.\"<br>\n<br>\n<a href=\"https://old.reddit.com/r/GithubCopilot/comments/1qqzknq/subagents_are_now_incredibly_functional_its_wild/\">old.reddit.com/r/GithubCopilot/c…</a></p>\n<img src=\"https://pbs.twimg.com/card_img/2017286962579968003/NGxYGoxA?format=jpg&name=800x419\" style=\"max-width:250px;\" />",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "title": "\"The past 4 days in Copilot have been a wild ass ride. It's unreal how cracked the new subagents are.\"\n\nhttps://www.reddit.com/r/GithubCopilot/comments/1qqzknq/subagents_are_now_incredibly_functional_its_wild/",
+          "guid": "2017286960814195052",
+          "dc:creator": "@pierceboggan",
+          "link": "https://xcancel.com/pierceboggan/status/2017286960814195052#m"
+        },
+        {
+          "description": "<p>\"Open as Editor\" in <a href=\"https://xcancel.com/code\" title=\"Visual Studio Code\">@code</a> is a cheat code. If you've got multiple agents active, it's invaluable to easily track them side by side.</p>\n<img src=\"https://pbs.twimg.com/media/G_5PW9GWEAEhGba.jpg\" style=\"max-width:250px;\" />",
+          "link": "https://xcancel.com/waldekm/status/2017137215122379116#m",
+          "guid": "2017137215122379116",
+          "dc:creator": "@waldekm",
+          "pubDate": "Fri, 30 Jan 2026 07:26:03 GMT",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "title": "RT by @pierceboggan: \"Open as Editor\" in @code is a cheat code. If you've got multiple agents active, it's invaluable to easily track them side by side."
+        },
+        {
+          "title": "RT by @pierceboggan: ",
+          "description": "<p></p>\n<a href=\"https://xcancel.com/intellectronica/status/2016833343912906773#m\">\n<br>Video<br>\n  <img src=\"https://pbs.twimg.com/amplify_video_thumb/2016832697075892224/img/FdTg6NgWeMsdJl8H.jpg\" style=\"max-width:250px;\" />\n</a>\n<hr/>\n<blockquote>\n<b>Eleanor Berger (@intellectronica)</b>\n<p>\n<p>New SKILL: Render beautiful Mermaid diagrams to SVG / PNG using the Beautiful Mermaid library<br>\n<br>\n<a href=\"https://skills.sh/intellectronica/agent-skills/beautiful-mermaid\">skills.sh/intellectronica/ag…</a></p>\n<img src=\"https://pbs.twimg.com/card_img/2016830814743646211/-HQJQZAL?format=png&name=800x419\" style=\"max-width:250px;\" />\n\n</p>\n<footer>\n— <cite><a href=\"https://xcancel.com/intellectronica/status/2016830813665648723#m\">https://xcancel.com/intellectronica/status/2016830813665648723#m</a>\n</footer>\n</blockquote>",
+          "guid": "2016833343912906773",
+          "pubDate": "Thu, 29 Jan 2026 11:18:34 GMT",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "link": "https://xcancel.com/intellectronica/status/2016833343912906773#m",
+          "dc:creator": "@intellectronica"
+        },
+        {
+          "title": "RT by @pierceboggan: Now in VS @Code, if the agent switches back to Plan mode on its own (thanks to the switchAgent tool), the change happens mid-turn, which aligns the agent better to the intent of the mode switch.",
+          "dc:creator": "@aerezk",
+          "description": "<p>Now in VS <a href=\"https://xcancel.com/code\" title=\"Visual Studio Code\">@Code</a>, if the agent switches back to Plan mode on its own (thanks to the switchAgent tool), the change happens mid-turn, which aligns the agent better to the intent of the mode switch.</p>\n<img src=\"https://pbs.twimg.com/media/G_24Ea_W0AAfAfE.png\" style=\"max-width:250px;\" />",
+          "pubDate": "Thu, 29 Jan 2026 20:24:56 GMT",
+          "guid": "2016970840793927719",
+          "link": "https://xcancel.com/aerezk/status/2016970840793927719#m",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          }
+        },
+        {
+          "guid": "2017053596114710910",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "description": "<p>spent the last few days working on a large deployment of <a href=\"https://xcancel.com/code\" title=\"Visual Studio Code\">@code</a> and GitHub Copilot<br>\n<br>\nIf we came to your company tomorrow, what would be the #1 thing you need our help with?</p>",
+          "pubDate": "Fri, 30 Jan 2026 01:53:47 GMT",
+          "title": "spent the last few days working on a large deployment of @code and GitHub Copilot\n\nIf we came to your company tomorrow, what would be the #1 thing you need our help with?",
+          "link": "https://xcancel.com/pierceboggan/status/2017053596114710910#m",
+          "dc:creator": "@pierceboggan"
+        },
+        {
+          "pubDate": "Thu, 29 Jan 2026 09:34:30 GMT",
+          "guid": "2016807152728396232",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "description": "<p>Have you checked <a href=\"https://github.com/microsoft/DebugMCP\">github.com/microsoft/DebugMC…</a>?</p>\n<img src=\"https://pbs.twimg.com/card_img/2015794221001715712/sMseCGE7?format=jpg&name=800x419\" style=\"max-width:250px;\" />",
+          "dc:creator": "@JohnLokerse",
+          "link": "https://xcancel.com/JohnLokerse/status/2016807152728396232#m",
+          "title": "RT by @pierceboggan: Have you checked https://github.com/microsoft/DebugMCP?"
+        },
+        {
+          "dc:creator": "@burkeholland",
+          "description": "<p>I do invite you to roast me and tell me where I'm wrong here, BUT...<br>\n<br>\nHere is why I think you should choose <a href=\"https://xcancel.com/github\" title=\"GitHub\">@github</a> Copilot for your all your AI coding needs over any other tool. <br>\n<br>\n🧵</p>",
+          "pubDate": "Thu, 29 Jan 2026 18:16:35 GMT",
+          "guid": "2016938539544355000",
+          "link": "https://xcancel.com/burkeholland/status/2016938539544355000#m",
+          "title": "RT by @pierceboggan: I do invite you to roast me and tell me where I'm wrong here, BUT...\n\nHere is why I think you should choose @github Copilot for your all your AI coding needs over any other tool. \n\n🧵",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          }
+        },
+        {
+          "pubDate": "Thu, 29 Jan 2026 23:33:17 GMT",
+          "guid": "2017018239759298807",
+          "title": "Coming soon to a @code near you 👀",
+          "description": "<p>Coming soon to a <a href=\"https://xcancel.com/code\" title=\"Visual Studio Code\">@code</a> near you 👀</p>\n<img src=\"https://pbs.twimg.com/media/G_3jZRJXEAAgZ9o.png\" style=\"max-width:250px;\" />",
+          "link": "https://xcancel.com/pierceboggan/status/2017018239759298807#m",
+          "dc:creator": "@pierceboggan",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          }
+        },
+        {
+          "guid": "2016968730752823674",
+          "pubDate": "Thu, 29 Jan 2026 20:16:33 GMT",
+          "title": "RT by @pierceboggan: Excellent new UI in VS @Code for asking question.\n\nJust the other day a colleague told me that he completely missed the question from the command bar.\n\nThis is better.",
+          "description": "<p>Excellent new UI in VS <a href=\"https://xcancel.com/code\" title=\"Visual Studio Code\">@Code</a> for asking question.<br>\n<br>\nJust the other day a colleague told me that he completely missed the question from the command bar.<br>\n<br>\nThis is better.</p>\n<img src=\"https://pbs.twimg.com/media/G_22URwXgAAVMQw.png\" style=\"max-width:250px;\" />",
+          "link": "https://xcancel.com/aerezk/status/2016968730752823674#m",
+          "dc:creator": "@aerezk",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          }
+        },
+        {
+          "dc:creator": "@idosal1",
+          "title": "RT by @pierceboggan: Doom is now an MCP App 🎮\n\nWaiting for the build in @code just got fun with your favorite arcade games!\n\nRuns on all MCP Apps hosts: @claudeai, @goose_oss, @getpostman, and more.\n\nMy server pulls the games from the awesome @internetarchive. Check it out!",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "link": "https://xcancel.com/idosal1/status/2016957756003987560#m",
+          "pubDate": "Thu, 29 Jan 2026 19:32:56 GMT",
+          "guid": "2016957756003987560",
+          "description": "<p>Doom is now an MCP App 🎮<br>\n<br>\nWaiting for the build in <a href=\"https://xcancel.com/code\" title=\"Visual Studio Code\">@code</a> just got fun with your favorite arcade games!<br>\n<br>\nRuns on all MCP Apps hosts: <a href=\"https://xcancel.com/claudeai\" title=\"Claude\">@claudeai</a>, <a href=\"https://xcancel.com/goose_oss\" title=\"goose\">@goose_oss</a>, <a href=\"https://xcancel.com/getpostman\" title=\"Postman\">@getpostman</a>, and more.<br>\n<br>\nMy server pulls the games from the awesome <a href=\"https://xcancel.com/internetarchive\" title=\"Internet Archive\">@internetarchive</a>. Check it out!</p>\n<a href=\"https://xcancel.com/idosal1/status/2016957756003987560#m\">\n<br>Video<br>\n  <img src=\"https://pbs.twimg.com/amplify_video_thumb/2016957182139330560/img/_NpfBk1r5uwwFdft.jpg\" style=\"max-width:250px;\" />\n</a>"
+        },
+        {
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "guid": "2016930887103852616",
+          "dc:creator": "@matthewisabel",
+          "title": "RT by @pierceboggan: New GitHub Issues search today!\n\nResults have been much better internally in testing and excited for everyone to be able to use it.\n\nA couple other issues ships in the queue for next week too from the highly request list 👀",
+          "link": "https://xcancel.com/matthewisabel/status/2016930887103852616#m",
+          "pubDate": "Thu, 29 Jan 2026 17:46:10 GMT",
+          "description": "<p>New GitHub Issues search today!<br>\n<br>\nResults have been much better internally in testing and excited for everyone to be able to use it.<br>\n<br>\nA couple other issues ships in the queue for next week too from the highly request list 👀</p>\n<hr/>\n<blockquote>\n<b>Matthew Isabel (@matthewisabel)</b>\n<p>\n<p>GitHub issues is now much faster. A lot of perf improvements in the queue.</p>\n<a href=\"https://xcancel.com/matthewisabel/status/2014444098690613718#m\">\n<br>Video<br>\n  <img src=\"https://pbs.twimg.com/amplify_video_thumb/2014443278259609602/img/vs5OYcTBJQMVGYco.jpg\" style=\"max-width:250px;\" />\n</a>\n\n</p>\n<footer>\n— <cite><a href=\"https://xcancel.com/matthewisabel/status/2014444098690613718#m\">https://xcancel.com/matthewisabel/status/2014444098690613718#m</a>\n</footer>\n</blockquote>"
+        },
+        {
+          "link": "https://xcancel.com/intellectronica/status/2016757852942008620#m",
+          "pubDate": "Thu, 29 Jan 2026 06:18:36 GMT",
+          "title": "RT by @pierceboggan: Really cool! Especially like the \"lightweight eval\" functionality. When we teach context engineering as part of our AI coding course one of the points is that it's important to test/eval the context, not just set and pray. And invariably I then get asked which tool to use for testing. Now I'll finally have an answer.",
+          "description": "<p>Really cool! Especially like the \"lightweight eval\" functionality. When we teach context engineering as part of our AI coding course one of the points is that it's important to test/eval the context, not just set and pray. And invariably I then get asked which tool to use for testing. Now I'll finally have an answer.</p>\n<hr/>\n<blockquote>\n<b>Pierce Boggan (@pierceboggan)</b>\n<p>\n<p>Introducing Primer: Get your repo ready for AI<br>\n<br>\n- Generate high-quality instructions for your repos<br>\n- Lightweight eval framework to ensure instructions improve agent outcomes<br>\n- Batch processing with auto PR submission for organizations and teams to scale AI initiatives<br>\n<br>\nTry it: <a href=\"https://github.com/pierceboggan/primer\">github.com/pierceboggan/prim…</a></p>\n<img src=\"https://pbs.twimg.com/media/G_zfRPUasAAc83v.jpg\" style=\"max-width:250px;\" />\n\n</p>\n<footer>\n— <cite><a href=\"https://xcancel.com/pierceboggan/status/2016732251535397158#m\">https://xcancel.com/pierceboggan/status/2016732251535397158#m</a>\n</footer>\n</blockquote>",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "guid": "2016757852942008620",
+          "dc:creator": "@intellectronica"
+        },
+        {
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "title": "RT by @pierceboggan: Have kids",
+          "pubDate": "Wed, 28 Jan 2026 18:37:10 GMT",
+          "description": "<p>Have kids</p>\n<hr/>\n<blockquote>\n<b>Charlie Smirkley (@charliesmirkley)</b>\n<p>\n<p>In Canada, 88.5% of women aged 20-29 have zero children. 94.4% for those with college degrees. <br>\n<br>\n43.2% of 30-39 year old women still have no kids. 48.6% with college degrees. <br>\n<br>\n23.6% of 40-49 year olds have zero children.</p>\n<img src=\"https://pbs.twimg.com/media/G_mEehLWYAAc3Qe.jpg\" style=\"max-width:250px;\" />\n\n</p>\n<footer>\n— <cite><a href=\"https://xcancel.com/charliesmirkley/status/2015788041143517350#m\">https://xcancel.com/charliesmirkley/status/2015788041143517350#m</a>\n</footer>\n</blockquote>",
+          "guid": "2016581330382000331",
+          "dc:creator": "@tobi",
+          "link": "https://xcancel.com/tobi/status/2016581330382000331#m"
+        },
+        {
+          "title": "New in @code Insiders: Tips to highlight new features in Chat. Requires http://chat.tips.enabled.\n\nThis is just our first iteration. Hoping to make them personalized to you and how you work.",
+          "pubDate": "Thu, 29 Jan 2026 05:12:33 GMT",
+          "guid": "2016741232295178283",
+          "dc:creator": "@pierceboggan",
+          "link": "https://xcancel.com/pierceboggan/status/2016741232295178283#m",
+          "guid$attrs": {
+            "isPermaLink": "false"
+          },
+          "description": "<p>New in <a href=\"https://xcancel.com/code\" title=\"Visual Studio Code\">@code</a> Insiders: Tips to highlight new features in Chat. Requires <a href=\"http://chat.tips\">chat.tips</a>.enabled.<br>\n<br>\nThis is just our first iteration. Hoping to make them personalized to you and how you work.</p>\n<img src=\"https://pbs.twimg.com/media/G_znQQfbUAExl0j.png\" style=\"max-width:250px;\" />"
+        }
+      ],
+      "title": "Pierce Boggan / @pierceboggan",
+      "description": "Twitter feed for: @pierceboggan. Generated by https://xcancel.com\n",
+      "language": "en-us",
+      "image": {
+        "title": "Pierce Boggan / @pierceboggan",
+        "link": "https://xcancel.com/pierceboggan",
+        "width": "128",
+        "height": "128",
+        "url": "https://pbs.twimg.com/profile_images/1887288324303507456/J2bo0YB9_400x400.jpg"
+      },
+      "ttl": "40"
+    }
+  }
+}
