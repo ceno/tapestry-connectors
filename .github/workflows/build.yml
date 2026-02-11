@@ -42,7 +42,5 @@ jobs:
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: feeds ${{ steps.version.outputs.version }}
-          files: 
-            - x.feed.tapestry
-            - instagram.feed.tapestry
+          files: x.feed.tapestry, instagram.feed.tapestry
           generate_release_notes: true
