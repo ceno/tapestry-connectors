@@ -1,0 +1,13 @@
+{
+	"variables": [
+		{
+			"title": "@natgeo",
+			"names": [
+				"handle"
+			],
+			"values": [
+				"natgeo"
+			]
+		}
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"sites": [
+		"instagram.com",
+		"www.instagram.com"
+	],
+	"url": [
+		{
+			"extract": "/https://(?:www\\.)?instagram\\.com/([^/?#]+)/",
+			"variable": "handle"
+		}
+	]
+}

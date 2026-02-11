@@ -1,0 +1,31 @@
+{
+	"inputs": [
+		{
+			"name": "handle",
+			"type": "text",
+			"prompt": "Instagram Handle",
+			"placeholder": "natgeo"
+		},
+		{
+			"name": "useSessionId",
+			"type": "switch",
+			"prompt": "Use Session ID",
+			"value": "off",
+			"placeholder": "When enabled, the session ID below will be sent with requests to reduce rate limiting"
+		},
+		{
+			"name": "sessionid",
+			"type": "text",
+			"prompt": "Session ID",
+			"placeholder": "From browser DevTools → Cookies → sessionid",
+			"value": "your-session-id-here"
+		},
+		{
+			"name": "debug",
+			"type": "switch",
+			"prompt": "Debug Mode",
+			"value": "off",
+			"placeholder": "When enabled, debug information will be logged to the console"
+		}
+	]
+}
