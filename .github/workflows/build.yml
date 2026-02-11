@@ -18,7 +18,9 @@ jobs:
         run: echo "version=$(date +'%Y.%m.%d')b${{ github.run_number }}" >> $GITHUB_OUTPUT
 
       - name: Inject build number into plugin-config.json
-        run: jq --argjson v ${{ github.run_number }} '.version = $v' x.feed/plugin-config.json > tmp.json && mv tmp.json x.feed/plugin-config.json
+        run:  |
+        jq --argjson v ${{ github.run_number }} '.version = $v' x.feed/plugin-config.json > tmp.json && mv tmp.json x.feed/plugin-config.json
+        jq --argjson v ${{ github.run_number }} '.version = $v' instagram.feed/plugin-config.json > tmp.json && mv tmp.json instagram.feed/plugin-config.json
 
       - name: Build x.feed.tapestry
         run: make
@@ -29,10 +31,18 @@ jobs:
           name: x.feed.tapestry
           path: x.feed.tapestry
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: instagram.feed.tapestry
+          path: instagram.feed.tapestry
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
           tag_name: v${{ steps.version.outputs.version }}
-          name: x.feed ${{ steps.version.outputs.version }}
-          files: x.feed.tapestry
+          name: feeds ${{ steps.version.outputs.version }}
+          files: 
+            - x.feed.tapestry
+            - instagram.feed.tapestry
           generate_release_notes: true
