@@ -19,8 +19,8 @@ jobs:
 
       - name: Inject build number into plugin-config.json
         run:  |
-        jq --argjson v ${{ github.run_number }} '.version = $v' x.feed/plugin-config.json > tmp.json && mv tmp.json x.feed/plugin-config.json
-        jq --argjson v ${{ github.run_number }} '.version = $v' instagram.feed/plugin-config.json > tmp.json && mv tmp.json instagram.feed/plugin-config.json
+          jq --argjson v ${{ github.run_number }} '.version = $v' x.feed/plugin-config.json > tmp.json && mv tmp.json x.feed/plugin-config.json
+          jq --argjson v ${{ github.run_number }} '.version = $v' instagram.feed/plugin-config.json > tmp.json && mv tmp.json instagram.feed/plugin-config.json
 
       - name: Build x.feed.tapestry
         run: make
