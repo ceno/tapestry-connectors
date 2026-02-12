@@ -117,6 +117,35 @@ function extractCaption(node) {
     return node?.edge_media_to_caption?.edges?.[0]?.node?.text || "";
 }
 
+// --- Post filtering ---
+
+function shouldIncludePost(post, contentFilter) {
+    if (!contentFilter || contentFilter === "all") {
+        return true;
+    }
+
+    // Determine the actual content type
+    // Note: Some posts may have typename="GraphImage" but isVideo=true
+    const isCarousel = post.typename === "GraphSidecar";
+    const isVideo = !isCarousel && post.isVideo;
+    const isImage = !isCarousel && !post.isVideo;
+
+    switch (contentFilter) {
+        case "images":
+            return isImage;
+        case "videos":
+            return isVideo;
+        case "carousels":
+            return isCarousel;
+        case "images_carousels":
+            return isImage || isCarousel;
+        case "videos_carousels":
+            return isVideo || isCarousel;
+        default:
+            return true;
+    }
+}
+
 // --- Item building ---
 
 function buildPostItem(post, handle) {
@@ -267,6 +296,7 @@ if (typeof module !== 'undefined' && module.exports) {
         formatCaptionAsHtml,
         buildRequestHeaders,
         buildMediaAttachment,
+        shouldIncludePost,
         GRAPHQL_DOC_ID,
         INSTAGRAM_APP_ID,
         USER_AGENT

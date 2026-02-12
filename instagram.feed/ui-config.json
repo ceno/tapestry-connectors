@@ -7,6 +7,39 @@
 			"placeholder": "natgeo"
 		},
 		{
+			"name": "contentFilter",
+			"type": "choices",
+			"prompt": "Content Filter",
+			"value": "all",
+			"placeholder": "Choose which types of posts to show",
+			"choices": [
+				{
+					"value": "all",
+					"display_name": "All Posts"
+				},
+				{
+					"value": "images",
+					"display_name": "Images Only"
+				},
+				{
+					"value": "videos",
+					"display_name": "Videos Only"
+				},
+				{
+					"value": "carousels",
+					"display_name": "Carousels Only"
+				},
+				{
+					"value": "images_carousels",
+					"display_name": "Images & Carousels"
+				},
+				{
+					"value": "videos_carousels",
+					"display_name": "Videos & Carousels"
+				}
+			]
+		},
+		{
 			"name": "useSessionId",
 			"type": "switch",
 			"prompt": "Use Session ID",
