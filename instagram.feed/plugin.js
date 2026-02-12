@@ -54,7 +54,7 @@ async function verify() {
 async function load() {
     console.log("Load function is called!!")
     const debugMode = (typeof debug !== 'undefined' && debug === "on");
-    const filter = (typeof contentFilter !== 'undefined') ? contentFilter : "all";
+    const filter = contentFilter || "all";
 
     try {
         const headers = buildRequestHeaders(getSessionId());
