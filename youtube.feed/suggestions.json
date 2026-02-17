@@ -1,0 +1,31 @@
+{
+	"variables": [
+		{
+			"title": "@MrBeast",
+			"names": [
+				"handle"
+			],
+			"values": [
+				"MrBeast"
+			]
+		},
+		{
+			"title": "@mkbhd",
+			"names": [
+				"handle"
+			],
+			"values": [
+				"mkbhd"
+			]
+		},
+		{
+			"title": "@VeritasiumOfficial",
+			"names": [
+				"handle"
+			],
+			"values": [
+				"VeritasiumOfficial"
+			]
+		}
+	]
+}

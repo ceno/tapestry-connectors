@@ -13,7 +13,8 @@
   "jest": {
     "testMatch": [
       "**/x.feed.test/**/*.test.js",
-      "**/instagram.feed.test/**/*.test.js"
+      "**/instagram.feed.test/**/*.test.js",
+      "**/youtube.feed.test/**/*.test.js"
     ],
     "testEnvironment": "node",
     "verbose": true

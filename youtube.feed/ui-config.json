@@ -1,0 +1,25 @@
+{
+	"inputs": [
+		{
+			"name": "handle",
+			"type": "text",
+			"prompt": "YouTube Handle",
+			"placeholder": "@MrBeast"
+		},
+		{
+			"name": "contentType",
+			"type": "choices",
+			"prompt": "Content Type",
+			"value": "Videos only",
+			"choices": "All content, Videos only, Shorts only, Live streams only",
+			"placeholder": "Choose which type of content to show"
+		},
+		{
+			"name": "debug",
+			"type": "switch",
+			"prompt": "Debug Mode",
+			"value": "off",
+			"placeholder": "When enabled, debug information will be logged to the console"
+		}
+	]
+}

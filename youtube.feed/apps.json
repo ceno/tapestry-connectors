@@ -1,0 +1,10 @@
+{
+	"apps": [
+		{
+			"id": "com.google.ios.youtube",
+			"name": "YouTube",
+			"template": "youtube://__HOST_PATH__",
+			"pattern": "https://(?:www\\.)?youtube\\.com"
+		}
+	]
+}

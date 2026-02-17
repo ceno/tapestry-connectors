@@ -1,6 +1,6 @@
 .PHONY: all build test clean
 
-all: x.feed.tapestry instagram.feed.tapestry
+all: x.feed.tapestry instagram.feed.tapestry youtube.feed.tapestry
 
 x.feed.tapestry: x.feed/plugin.js x.feed/plugin-config.json
 	echo "Building x.feed connector..."
@@ -14,10 +14,16 @@ instagram.feed.tapestry: instagram.feed/plugin.js instagram.feed/plugin-config.j
 	cd instagram.feed && zip -r -0 ../instagram.feed.tapestry . -x "*.DS_Store" -x "__MACOSX/*"
 	echo "Created: instagram.feed.tapestry"
 
-build: x.feed.tapestry instagram.feed.tapestry
+youtube.feed.tapestry: youtube.feed/plugin.js youtube.feed/plugin-config.json
+	echo "Building youtube.feed connector..."
+	rm -f youtube.feed.tapestry
+	cd youtube.feed && zip -r -0 ../youtube.feed.tapestry . -x "*.DS_Store" -x "__MACOSX/*"
+	echo "Created: youtube.feed.tapestry"
+
+build: x.feed.tapestry instagram.feed.tapestry youtube.feed.tapestry
 
 test:
 	npm test
 
 clean:
-	rm -f x.feed.tapestry instagram.feed.tapestry
+	rm -f x.feed.tapestry instagram.feed.tapestry youtube.feed.tapestry

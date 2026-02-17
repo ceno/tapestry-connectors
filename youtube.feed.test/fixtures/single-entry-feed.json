@@ -1,0 +1,58 @@
+{
+  "feed": {
+    "link$attrs": {
+      "rel": "alternate",
+      "href": "https://www.youtube.com/channel/UCsingleEntry123456789"
+    },
+    "id": "yt:channel:UCsingleEntry123456789",
+    "yt:channelId": "UCsingleEntry123456789",
+    "title": "Single Entry Channel",
+    "author": {
+      "uri": "https://www.youtube.com/channel/UCsingleEntry123456789",
+      "name": "Single Entry Channel"
+    },
+    "published": "2020-01-01T00:00:00+00:00",
+    "entry": {
+      "id": "yt:video:singleVid01",
+      "yt:videoId": "singleVid01",
+      "yt:channelId": "UCsingleEntry123456789",
+      "title": "The Only Video",
+      "link$attrs": {
+        "rel": "alternate",
+        "href": "https://www.youtube.com/watch?v=singleVid01"
+      },
+      "author": {
+        "uri": "https://www.youtube.com/channel/UCsingleEntry123456789",
+        "name": "Single Entry Channel"
+      },
+      "published": "2024-06-15T10:00:00+00:00",
+      "updated": "2024-06-16T10:00:00+00:00",
+      "media:group": {
+        "media:title": "The Only Video",
+        "media:content$attrs": {
+          "url": "https://www.youtube.com/v/singleVid01?version=3",
+          "type": "application/x-shockwave-flash",
+          "width": "640",
+          "height": "390"
+        },
+        "media:thumbnail$attrs": {
+          "url": "https://i1.ytimg.com/vi/singleVid01/hqdefault.jpg",
+          "width": "480",
+          "height": "360"
+        },
+        "media:description": "A single video entry for testing.",
+        "media:community": {
+          "media:starRating$attrs": {
+            "count": "100",
+            "average": "5.00",
+            "min": "1",
+            "max": "5"
+          },
+          "media:statistics$attrs": {
+            "views": "42"
+          }
+        }
+      }
+    }
+  }
+}

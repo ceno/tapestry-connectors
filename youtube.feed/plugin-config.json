@@ -1,0 +1,13 @@
+{
+	"id": "youtube.feed",
+	"display_name": "YouTube - Follow Channel",
+	"service_name": "YouTube",
+	"default_color": "coral",
+	"icon": "https://www.youtube.com/s/desktop/01530da7/img/favicon_144x144.png",
+	"site": "https://www.youtube.com",
+	"needs_verification": true,
+	"verify_variables": true,
+	"provides_attachments": true,
+	"minimum_app_version": "1.3",
+	"version": 1
+}

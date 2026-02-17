@@ -1,0 +1,27 @@
+{
+	"sites": [
+		"youtube.com",
+		"www.youtube.com",
+		"m.youtube.com"
+	],
+	"url": [
+		{
+			"extract": "/youtube\\.com/@([^/?#]+)/",
+			"variable": "handle"
+		},
+		{
+			"extract": "/youtube\\.com/channel/(UC[a-zA-Z0-9_-]+)/",
+			"variable": "handle"
+		}
+	],
+	"html": [
+		{
+			"element": "link",
+			"check": "type",
+			"match": "application/rss+xml",
+			"use": "href",
+			"extract": "/channel_id=([^&]+)/",
+			"variable": "handle"
+		}
+	]
+}
