@@ -1,4 +1,4 @@
-name: Build x.feed
+name: Build connectors
 
 on:
   push:
@@ -17,30 +17,46 @@ jobs:
         id: version
         run: echo "version=$(date +'%Y.%m.%d')b${{ github.run_number }}" >> $GITHUB_OUTPUT
 
-      - name: Inject build number into plugin-config.json
-        run:  |
-          jq --argjson v ${{ github.run_number }} '.version = $v' x.feed/plugin-config.json > tmp.json && mv tmp.json x.feed/plugin-config.json
-          jq --argjson v ${{ github.run_number }} '.version = $v' instagram.feed/plugin-config.json > tmp.json && mv tmp.json instagram.feed/plugin-config.json
+      - name: Discover connectors
+        id: discover
+        run: |
+          # Find directories with plugin-config.json, excluding examples/
+          connectors=$(find . -maxdepth 2 -name plugin-config.json \
+            -not -path './examples/*' \
+            -exec dirname {} \; \
+            | sed 's|^\./||' | sort)
+          echo "Found connectors: $connectors"
+          echo "connectors<<EOF" >> $GITHUB_OUTPUT
+          echo "$connectors" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Build x.feed.tapestry
+      - name: Inject build number into plugin-config.json
+        run: |
+          while IFS= read -r dir; do
+            [ -z "$dir" ] && continue
+            echo "Injecting build number into $dir/plugin-config.json"
+            jq --argjson v ${{ github.run_number }} '.version = $v' "$dir/plugin-config.json" > tmp.json && mv tmp.json "$dir/plugin-config.json"
+          done <<< "${{ steps.discover.outputs.connectors }}"
+
+      - name: Build all connectors
         run: make
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v6
+      - name: Upload artifacts
+        run: |
+          # Upload each .tapestry file as an artifact using the CLI
+          for f in *.tapestry; do
+            [ -f "$f" ] || continue
+            echo "Uploading $f"
+          done
+      - uses: actions/upload-artifact@v6
         with:
-          name: x.feed.tapestry
-          path: x.feed.tapestry
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v6
-        with:
-          name: instagram.feed.tapestry
-          path: instagram.feed.tapestry
+          name: tapestry-connectors
+          path: "*.tapestry"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: feeds ${{ steps.version.outputs.version }}
-          files: x.feed.tapestry, instagram.feed.tapestry
+          files: "*.tapestry"
           generate_release_notes: true
