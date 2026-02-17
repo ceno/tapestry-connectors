@@ -39,7 +39,7 @@ describe('normalizeXCancelUrl', () => {
 });
 
 describe('xload with RSS 2.0 feed containing duplicates', () => {
-    test('should normalize URLs in RSS items', () => {
+    test('should normalize URLs in RSS items', async () => {
         const mockRssFeed = {
             rss: {
                 channel: {
@@ -68,7 +68,7 @@ describe('xload with RSS 2.0 feed containing duplicates', () => {
             }
         };
 
-        const results = xload(mockRssFeed);
+        const results = await xload(mockRssFeed);
         
         expect(results).toHaveLength(2);
         // Both items should use normalized xcancel.com URLs
@@ -80,7 +80,7 @@ describe('xload with RSS 2.0 feed containing duplicates', () => {
         expect(results[1].author.uri).toBe('https://xcancel.com/pierceboggan');
     });
 
-    test('should normalize URLs in single RSS item', () => {
+    test('should normalize URLs in single RSS item', async () => {
         const mockRssFeed = {
             rss: {
                 channel: {
@@ -97,7 +97,7 @@ describe('xload with RSS 2.0 feed containing duplicates', () => {
             }
         };
 
-        const results = xload(mockRssFeed);
+        const results = await xload(mockRssFeed);
         
         expect(results).toHaveLength(1);
         expect(results[0].uri).toBe('https://xcancel.com/testuser/status/999#m');

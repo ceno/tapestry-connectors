@@ -111,9 +111,38 @@ function extractExternalLinkFromContent(content, feedUrl) {
     return null;
 }
 
+// Fetch Open Graph metadata for a URL if the extractProperties function is available (Tapestry runtime only)
+// Returns a Promise that resolves to an object with title, subtitle, image, etc. or null if unavailable
+async function fetchLinkMetadata(url) {
+    // Check if we're in the Tapestry runtime (not Node.js test environment)
+    if (typeof sendRequest === 'undefined' || typeof extractProperties === 'undefined') {
+        return null;
+    }
+    
+    try {
+        // Fetch the HTML content of the link
+        const html = await sendRequest(url, "GET");
+        // Extract Open Graph and other metadata
+        const properties = await extractProperties(html);
+        
+        return {
+            title: properties['og:title'] || properties['title'] || null,
+            subtitle: properties['og:description'] || properties['description'] || null,
+            image: properties['og:image'] || null,
+            siteName: properties['og:site_name'] || null
+        };
+    } catch (error) {
+        // If fetching fails, just return null - don't break the whole feed
+        if (debugEnabled) {
+            console.log(`Debug: Failed to fetch metadata for ${url}:`, error);
+        }
+        return null;
+    }
+}
+
 // Detect Twitter card images (link preview thumbnails) and pair them with the first external link.
 // Card images use pbs.twimg.com/card_img/ URLs, as opposed to regular tweet images (pbs.twimg.com/media/).
-// Returns { imageUrl, externalLink } or null if no card image or no external link found.
+// Returns { imageUrl, externalLink, title } or null if no card image or no external link found.
 function extractCardInfo(content, feedUrl) {
     if (!content || !feedUrl) return null;
     
@@ -131,9 +160,28 @@ function extractCardInfo(content, feedUrl) {
     const externalLink = extractExternalLinkFromContent(content, feedUrl);
     if (!externalLink) return null;
     
+    // Try to extract title from the card image's alt attribute or nearby text
+    // Twitter cards sometimes include alt text with the title
+    let title = null;
+    
+    // Look for alt attribute on the card image
+    const altMatch = content.match(/pbs\.twimg\.com\/card_img\/[^"']*["'][^>]*alt=["']([^"']+)["']/);
+    if (altMatch) {
+        title = altMatch[1];
+    }
+    
+    // If no alt text, look for a title attribute
+    if (!title) {
+        const titleMatch = content.match(/pbs\.twimg\.com\/card_img\/[^"']*["'][^>]*title=["']([^"']+)["']/);
+        if (titleMatch) {
+            title = titleMatch[1];
+        }
+    }
+    
     return {
         imageUrl: imageUrl,
-        externalLink: externalLink
+        externalLink: externalLink,
+        title: title
     };
 }
 
@@ -206,7 +254,7 @@ function extractString(node, allowHTML = false) {
     return null;
 }
 
-function xload(jsonObject, debug = false) {
+async function xload(jsonObject, debug = false) {
     debugEnabled = debug;
     
     if (debugEnabled) {
@@ -354,6 +402,28 @@ function xload(jsonObject, debug = false) {
             else if (cardInfo) {
                 let linkAttachment = LinkAttachment.createWithUrl(cardInfo.externalLink);
                 linkAttachment.image = cardInfo.imageUrl;
+                
+                // Try to fetch metadata for the link (title, description, etc.)
+                const metadata = await fetchLinkMetadata(cardInfo.externalLink);
+                if (metadata) {
+                    if (metadata.title) {
+                        linkAttachment.title = metadata.title;
+                    }
+                    if (metadata.subtitle) {
+                        linkAttachment.subtitle = metadata.subtitle;
+                    }
+                    if (metadata.siteName) {
+                        linkAttachment.siteName = metadata.siteName;
+                    }
+                    // Use the card image from Twitter, but fall back to og:image if needed
+                    if (!linkAttachment.image && metadata.image) {
+                        linkAttachment.image = metadata.image;
+                    }
+                } else if (cardInfo.title) {
+                    // Fallback to title extracted from HTML attributes if metadata fetch fails
+                    linkAttachment.title = cardInfo.title;
+                }
+                
                 attachments.push(linkAttachment);
             }
             // extract any media from RSS: https://www.rssboard.org/media-rss
@@ -472,6 +542,7 @@ if (typeof module !== 'undefined' && module.exports) {
         extractCardInfo,
         extractExternalLinkFromContent,
         extractImagesFromHtml,
-        normalizeXCancelUrl
+        normalizeXCancelUrl,
+        fetchLinkMetadata
     };
 }

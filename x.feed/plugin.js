@@ -76,7 +76,8 @@ async function load() {
             console.log(jsonObject);
         }
 
-        processResults(xload(jsonObject, debugMode));
+        const items = await xload(jsonObject, debugMode);
+        processResults(items);
     }
     catch (error) {
         processError(error);
