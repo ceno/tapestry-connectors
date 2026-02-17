@@ -13,6 +13,11 @@ if (require('x-shared.js') === false) {
 //   using WebKit
 //   in an awesome RSS reader
 const userAgent = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_3; de-de) AppleWebKit/531.22.7 (KHTML, like Gecko) NetNewsWire/3.2.7 Tapestry/1.3";
+const enrichCardLinksOptions = {
+    maxTotalMs: 3000,
+    maxLinks: 6,
+    maxConcurrency: 2
+};
 
 function getFeedUrl() {
     return `${site}/${handle}/rss`;
@@ -76,7 +81,20 @@ async function load() {
             console.log(jsonObject);
         }
 
-        processResults(xload(jsonObject, debugMode));
+        const xloadStart = Date.now();
+        const results = xload(jsonObject, debugMode);
+        if (debugMode) {
+            console.log(`Debug: xload parsed ${results.length} items in ${Date.now() - xloadStart}ms`);
+        }
+
+        // Enrich card-backed link attachments with OG metadata from external pages
+        const enrichStart = Date.now();
+        await enrichCardLinks(results, enrichCardLinksOptions);
+        if (debugMode) {
+            console.log(`Debug: enrichCardLinks total wall time: ${Date.now() - enrichStart}ms`);
+        }
+
+        processResults(results);
     }
     catch (error) {
         processError(error);

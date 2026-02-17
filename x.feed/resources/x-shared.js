@@ -113,7 +113,7 @@ function extractExternalLinkFromContent(content, feedUrl) {
 
 // Detect Twitter card images (link preview thumbnails) and pair them with the first external link.
 // Card images use pbs.twimg.com/card_img/ URLs, as opposed to regular tweet images (pbs.twimg.com/media/).
-// Returns { imageUrl, externalLink } or null if no card image or no external link found.
+// Returns { imageUrl, externalLink, title } or null if no card image or no external link found.
 function extractCardInfo(content, feedUrl) {
     if (!content || !feedUrl) return null;
     
@@ -133,8 +133,205 @@ function extractCardInfo(content, feedUrl) {
     
     return {
         imageUrl: imageUrl,
-        externalLink: externalLink
+        externalLink: externalLink,
+        title: null
     };
+}
+
+// Extract Open Graph metadata from an HTML string.
+// Returns { title, description, siteName } with null for any missing fields.
+// Uses simple regex matching to avoid needing a full HTML parser.
+function extractOgMetadata(html) {
+    if (!html || typeof html !== 'string') {
+        return { title: null, description: null, siteName: null };
+    }
+    
+    // Extract og:title
+    const titleMatch = html.match(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']*)["'][^>]*>/i)
+        || html.match(/<meta[^>]+content=["']([^"']*)["'][^>]+property=["']og:title["'][^>]*>/i);
+    
+    // Extract og:description
+    const descMatch = html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']*)["'][^>]*>/i)
+        || html.match(/<meta[^>]+content=["']([^"']*)["'][^>]+property=["']og:description["'][^>]*>/i);
+    
+    // Extract og:site_name
+    const siteMatch = html.match(/<meta[^>]+property=["']og:site_name["'][^>]+content=["']([^"']*)["'][^>]*>/i)
+        || html.match(/<meta[^>]+content=["']([^"']*)["'][^>]+property=["']og:site_name["'][^>]*>/i);
+    
+    // Fallback: try <title> tag if og:title is missing
+    const fallbackTitle = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+    
+    const title = titleMatch ? decodeHtmlEntities(titleMatch[1]) : (fallbackTitle ? decodeHtmlEntities(fallbackTitle[1].trim()) : null);
+    const description = descMatch ? decodeHtmlEntities(descMatch[1]) : null;
+    const siteName = siteMatch ? decodeHtmlEntities(siteMatch[1]) : null;
+    
+    return { title, description, siteName };
+}
+
+// Decode common HTML entities in OG metadata values
+function decodeHtmlEntities(text) {
+    if (!text) return text;
+    return text
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&#x27;/g, "'")
+        .replace(/&#x2F;/g, "/");
+}
+
+// Enrich card-backed LinkAttachments with Open Graph metadata fetched from external URLs.
+// Fetches are done in a bounded worker pool with a total budget deadline.
+// Mutates items in-place. Failures are silently ignored (attachment keeps its existing data).
+async function enrichCardLinks(items, options = {}) {
+    const enrichStart = Date.now();
+    const defaults = {
+        maxTotalMs: 3000,
+        maxLinks: 6,
+        maxConcurrency: 2
+    };
+    const settings = {
+        maxTotalMs: Math.max(0, options.maxTotalMs ?? defaults.maxTotalMs),
+        maxLinks: Math.max(0, options.maxLinks ?? defaults.maxLinks),
+        maxConcurrency: Math.max(1, options.maxConcurrency ?? defaults.maxConcurrency)
+    };
+
+    if (!items || items.length === 0) {
+        if (debugEnabled) {
+            console.log(`Debug: enrichCardLinks skipped (no items), took ${Date.now() - enrichStart}ms`);
+        }
+        return;
+    }
+
+    // Collect card-backed link attachments that need enrichment
+    const targets = [];
+    for (const item of items) {
+        if (!item.attachments) continue;
+        for (const attachment of item.attachments) {
+            if (attachment._isCardLink && attachment.url) {
+                targets.push(attachment);
+            }
+        }
+    }
+
+    if (targets.length === 0) {
+        if (debugEnabled) {
+            console.log(`Debug: enrichCardLinks skipped (0 card links found in ${items.length} items), took ${Date.now() - enrichStart}ms`);
+        }
+        return;
+    }
+
+    // Group attachments by URL to avoid duplicate fetches
+    const targetsByUrl = new Map();
+    for (const attachment of targets) {
+        if (!targetsByUrl.has(attachment.url)) {
+            targetsByUrl.set(attachment.url, []);
+        }
+        targetsByUrl.get(attachment.url).push(attachment);
+    }
+
+    const allUrls = Array.from(targetsByUrl.keys());
+    const urls = allUrls.slice(0, settings.maxLinks);
+    const skippedByMaxLinks = allUrls.length - urls.length;
+
+    if (debugEnabled) {
+        console.log(`Debug: enrichCardLinks starting — ${targets.length} card link attachment(s), ${allUrls.length} unique URL(s), processing ${urls.length}`);
+        if (skippedByMaxLinks > 0) {
+            console.log(`Debug:   skipped by maxLinks (${settings.maxLinks}): ${skippedByMaxLinks}`);
+        }
+        for (const url of urls) {
+            console.log(`Debug:   → ${url}`);
+        }
+    }
+
+    const deadline = enrichStart + settings.maxTotalMs;
+    const metadataByUrl = new Map();
+    let index = 0;
+    let attempted = 0;
+    let succeeded = 0;
+    let failed = 0;
+
+    async function worker() {
+        while (true) {
+            const myIndex = index;
+            index += 1;
+            if (myIndex >= urls.length) {
+                return;
+            }
+
+            const remainingTotalMs = deadline - Date.now();
+            if (remainingTotalMs <= 0) {
+                return;
+            }
+
+            const url = urls[myIndex];
+            attempted += 1;
+            const fetchStart = Date.now();
+
+            try {
+                const html = await sendRequest(url, "GET");
+                const fetchDuration = Date.now() - fetchStart;
+
+                const parseStart = Date.now();
+                const og = extractOgMetadata(html);
+                const parseDuration = Date.now() - parseStart;
+
+                metadataByUrl.set(url, og);
+                succeeded += 1;
+
+                if (debugEnabled) {
+                    const htmlSize = html ? html.length : 0;
+                    console.log(`Debug: enrichCardLinks fetch OK — ${url}`);
+                    console.log(`Debug:   fetch: ${fetchDuration}ms, response: ${htmlSize} bytes, parse: ${parseDuration}ms`);
+                    console.log(`Debug:   og:title=${og.title || '(none)'}, og:description=${og.description ? og.description.substring(0, 80) + '...' : '(none)'}, og:site_name=${og.siteName || '(none)'}`);
+                }
+            }
+            catch (e) {
+                const fetchDuration = Date.now() - fetchStart;
+                failed += 1;
+
+                if (debugEnabled) {
+                    console.log(`Debug: enrichCardLinks fetch FAILED — ${url}`);
+                    console.log(`Debug:   error: ${e.message}, after ${fetchDuration}ms`);
+                }
+            }
+        }
+    }
+
+    const workerCount = Math.min(settings.maxConcurrency, urls.length || 1);
+    const workers = [];
+    for (let i = 0; i < workerCount; i++) {
+        workers.push(worker());
+    }
+    await Promise.allSettled(workers);
+
+    // Apply fetched metadata to all matching attachments
+    for (const [url, og] of metadataByUrl.entries()) {
+        const urlTargets = targetsByUrl.get(url) || [];
+        for (const attachment of urlTargets) {
+            if (og.title) {
+                attachment.title = og.title;
+            }
+            if (og.description) {
+                attachment.subtitle = og.description;
+            }
+            if (og.siteName) {
+                attachment.siteName = og.siteName;
+            }
+        }
+    }
+
+    // Clean up internal marker
+    for (const attachment of targets) {
+        delete attachment._isCardLink;
+    }
+
+    if (debugEnabled) {
+        const skippedByDeadline = Math.max(0, urls.length - attempted);
+        const totalDuration = Date.now() - enrichStart;
+        console.log(`Debug: enrichCardLinks complete — attempted=${attempted}, succeeded=${succeeded}, failed=${failed}, skippedByDeadline=${skippedByDeadline}, skippedByMaxLinks=${skippedByMaxLinks}, total=${totalDuration}ms`);
+    }
 }
 
 function extractString(node, allowHTML = false) {
@@ -354,6 +551,7 @@ function xload(jsonObject, debug = false) {
             else if (cardInfo) {
                 let linkAttachment = LinkAttachment.createWithUrl(cardInfo.externalLink);
                 linkAttachment.image = cardInfo.imageUrl;
+                linkAttachment._isCardLink = true; // Tag for enrichCardLinks
                 attachments.push(linkAttachment);
             }
             // extract any media from RSS: https://www.rssboard.org/media-rss
@@ -472,6 +670,9 @@ if (typeof module !== 'undefined' && module.exports) {
         extractCardInfo,
         extractExternalLinkFromContent,
         extractImagesFromHtml,
-        normalizeXCancelUrl
+        normalizeXCancelUrl,
+        extractOgMetadata,
+        decodeHtmlEntities,
+        enrichCardLinks
     };
 }
