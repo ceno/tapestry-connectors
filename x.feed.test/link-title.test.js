@@ -1,6 +1,6 @@
 // Test for extracting link titles from X posts
 
-const { xload } = require('../x.feed/resources/x-shared.js');
+const { xload, fetchLinkMetadata } = require('../x.feed/resources/x-shared.js');
 
 describe('X posts with link cards', () => {
     test('should extract link attachment with title from card image', async () => {
@@ -47,9 +47,8 @@ Read more: <a href="https://www.anthropic.com/news/covering-electricity-price-in
         expect(linkAttachment.image).toBeDefined();
         expect(linkAttachment.image).toContain('card_img');
         
-        // This is what we're trying to fix - the title should be extracted
-        // For now, we'll just check that the attachment exists
-        // After the fix, we should be able to extract a title
+        // Note: In test environment, title won't be fetched because sendRequest isn't available
+        // In Tapestry runtime, the title would be fetched from the link's Open Graph metadata
         console.log('Link attachment:', linkAttachment);
     });
 
@@ -83,5 +82,72 @@ Read more: <a href="https://www.anthropic.com/news/covering-electricity-price-in
         // The attachment should be a regular image (from media, not card_img)
         const mediaAttachment = item.attachments[0];
         expect(mediaAttachment.url).toContain('pbs.twimg.com/media');
+    });
+});
+
+describe('fetchLinkMetadata', () => {
+    test('should return null when sendRequest is not available (Node.js environment)', async () => {
+        const metadata = await fetchLinkMetadata('https://example.com');
+        expect(metadata).toBeNull();
+    });
+    
+    test('should handle errors gracefully', async () => {
+        // Mock sendRequest to simulate Tapestry environment but with an error
+        global.sendRequest = jest.fn().mockRejectedValue(new Error('Network error'));
+        global.extractProperties = jest.fn();
+        
+        const metadata = await fetchLinkMetadata('https://example.com');
+        
+        // Should return null on error, not throw
+        expect(metadata).toBeNull();
+        
+        // Clean up
+        delete global.sendRequest;
+        delete global.extractProperties;
+    });
+    
+    test('should extract metadata when sendRequest and extractProperties are available', async () => {
+        // Mock Tapestry runtime functions
+        global.sendRequest = jest.fn().mockResolvedValue('<html>...</html>');
+        global.extractProperties = jest.fn().mockResolvedValue({
+            'og:title': 'Test Article Title',
+            'og:description': 'Test description',
+            'og:image': 'https://example.com/image.jpg',
+            'og:site_name': 'Example Site'
+        });
+        
+        const metadata = await fetchLinkMetadata('https://example.com/article');
+        
+        expect(metadata).not.toBeNull();
+        expect(metadata.title).toBe('Test Article Title');
+        expect(metadata.subtitle).toBe('Test description');
+        expect(metadata.image).toBe('https://example.com/image.jpg');
+        expect(metadata.siteName).toBe('Example Site');
+        
+        expect(sendRequest).toHaveBeenCalledWith('https://example.com/article', 'GET');
+        expect(extractProperties).toHaveBeenCalledWith('<html>...</html>');
+        
+        // Clean up
+        delete global.sendRequest;
+        delete global.extractProperties;
+    });
+    
+    test('should fallback to non-og properties when og properties are not available', async () => {
+        // Mock Tapestry runtime functions with non-og properties
+        global.sendRequest = jest.fn().mockResolvedValue('<html>...</html>');
+        global.extractProperties = jest.fn().mockResolvedValue({
+            'title': 'Fallback Title',
+            'description': 'Fallback description'
+        });
+        
+        const metadata = await fetchLinkMetadata('https://example.com/article');
+        
+        expect(metadata).not.toBeNull();
+        expect(metadata.title).toBe('Fallback Title');
+        expect(metadata.subtitle).toBe('Fallback description');
+        
+        // Clean up
+        delete global.sendRequest;
+        delete global.extractProperties;
     });
 });
