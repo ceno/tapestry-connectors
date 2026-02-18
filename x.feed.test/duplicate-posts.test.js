@@ -102,4 +102,67 @@ describe('xload with RSS 2.0 feed containing duplicates', () => {
         expect(results).toHaveLength(1);
         expect(results[0].uri).toBe('https://xcancel.com/testuser/status/999#m');
     });
+
+    test('should handle /i/status/ URL format with proper author info', () => {
+        const mockRssFeed = {
+            rss: {
+                channel: {
+                    link: 'https://xcancel.com/pierceboggan',
+                    title: 'pierceboggan',
+                    image: {
+                        url: 'https://pbs.twimg.com/profile_images/1887288324303507456/J2bo0YB9_400x400.jpg'
+                    },
+                    item: {
+                        link: 'https://xcancel.com/i/status/2024188273086910929#m',
+                        'dc:creator': '@timheuer',
+                        pubDate: 'Tue, 18 Feb 2026 18:24:26 +0000',
+                        title: 'RT by @pierceboggan: went ahead and published',
+                        description: '<p>went ahead and published: <a href="https://marketplace.visualstudio.com/items?itemName=TimHeuer.vscode-agent-plugins">marketplace.visualstudio.com…</a></p>'
+                    }
+                }
+            }
+        };
+
+        const results = xload(mockRssFeed);
+        
+        expect(results).toHaveLength(1);
+        // Item should have proper URI
+        expect(results[0].uri).toBe('https://xcancel.com/i/status/2024188273086910929#m');
+        
+        // Author should be properly extracted with valid username and URI
+        expect(results[0].author).toBeDefined();
+        expect(results[0].author.username).toBe('@timheuer');
+        expect(results[0].author.name).toBe('timheuer');
+        expect(results[0].author.uri).toBe('https://xcancel.com/timheuer');
+        
+        // Annotation should show the retweeter
+        expect(results[0].annotations).toHaveLength(1);
+        expect(results[0].annotations[0].text).toBe('@pierceboggan Reposted');
+        expect(results[0].annotations[0].uri).toBe('https://xcancel.com/pierceboggan');
+    });
+
+    test('should handle /i/status/ URL format with empty dc:creator', () => {
+        const mockRssFeed = {
+            rss: {
+                channel: {
+                    link: 'https://xcancel.com/pierceboggan',
+                    title: 'pierceboggan',
+                    item: {
+                        link: 'https://xcancel.com/i/status/2024188273086910929#m',
+                        'dc:creator': '@',
+                        pubDate: 'Tue, 18 Feb 2026 18:24:26 +0000',
+                        title: 'RT by @pierceboggan: Some content',
+                        description: '<p>Some content</p>'
+                    }
+                }
+            }
+        };
+
+        const results = xload(mockRssFeed);
+        
+        expect(results).toHaveLength(1);
+        // When dc:creator is just "@", author should either be null or have minimal valid data
+        // The item should still be created successfully
+        expect(results[0].uri).toBe('https://xcancel.com/i/status/2024188273086910929#m');
+    });
 });
