@@ -19,12 +19,12 @@ The install badges below are built from Shields.io badges and remote service log
 
 | Connector | Install |
 |-----------|---------|
-| AniList – User Activity | [![AniList Install](https://img.shields.io/badge/AniList-Install-555555?style=flat-square&logo=anilist&logoColor=white&labelColor=02A9FF)](https://ceno.github.io/tapestry-connectors/install/anilist.html) |
-| Instagram – Follow Account | [![Instagram Install](https://img.shields.io/badge/Instagram-Install-555555?style=flat-square&logo=instagram&logoColor=white&labelColor=E4405F)](https://ceno.github.io/tapestry-connectors/install/instagram.html) |
-| Letterboxd – User Activity | <a href="https://ceno.github.io/tapestry-connectors/install/letterboxd.html"><img src="https://a.ltrbxd.com/logos/letterboxd-decal-dots-pos-rgb-500px.png" alt="" width="20" height="20"><img src="https://img.shields.io/badge/Letterboxd-Install-555555?style=flat-square&labelColor=14181C" alt="Letterboxd Install"></a> |
-| MyAnimeList – User Updates | [![MyAnimeList Install](https://img.shields.io/badge/MyAnimeList-Install-555555?style=flat-square&logo=myanimelist&logoColor=white&labelColor=2E51A2)](https://ceno.github.io/tapestry-connectors/install/myanimelist.html) |
-| X.com (Twitter) – Follow Account | [![X Install](https://img.shields.io/badge/X-Install-555555?style=flat-square&logo=x&logoColor=white&labelColor=111111)](https://ceno.github.io/tapestry-connectors/install/x.html) |
-| YouTube – Follow Channel | [![YouTube Install](https://img.shields.io/badge/YouTube-Install-555555?style=flat-square&logo=youtube&logoColor=white&labelColor=FF0000)](https://ceno.github.io/tapestry-connectors/install/youtube.html) |
+| AniList  | [![AniList Install](https://img.shields.io/badge/AniList-Install-555555?style=flat-square&logo=anilist&logoColor=white&labelColor=02A9FF)](https://ceno.github.io/tapestry-connectors/install/anilist.html) |
+| Instagram  | [![Instagram Install](https://img.shields.io/badge/Instagram-Install-555555?style=flat-square&logo=instagram&logoColor=white&labelColor=E4405F)](https://ceno.github.io/tapestry-connectors/install/instagram.html) |
+| Letterboxd y | <a href="https://ceno.github.io/tapestry-connectors/install/letterboxd.html"><img src="https://a.ltrbxd.com/logos/letterboxd-decal-dots-pos-rgb-500px.png" alt="" width="20" height="20"><img src="https://img.shields.io/badge/Letterboxd-Install-555555?style=flat-square&labelColor=14181C" alt="Letterboxd Install"></a> |
+| MyAnimeList | [![MyAnimeList Install](https://img.shields.io/badge/MyAnimeList-Install-555555?style=flat-square&logo=myanimelist&logoColor=white&labelColor=2E51A2)](https://ceno.github.io/tapestry-connectors/install/myanimelist.html) |
+| X.com (Twitter) | [![X Install](https://img.shields.io/badge/X-Install-555555?style=flat-square&logo=x&logoColor=white&labelColor=111111)](https://ceno.github.io/tapestry-connectors/install/x.html) |
+| YouTube | [![YouTube Install](https://img.shields.io/badge/YouTube-Install-555555?style=flat-square&logo=youtube&logoColor=white&labelColor=FF0000)](https://ceno.github.io/tapestry-connectors/install/youtube.html) |
 
 > Each link opens a redirect page that immediately hands off to Tapestry. If Tapestry doesn't open, the page shows the plain URL to paste manually into **Settings › Connectors › Add from URL**.  
 > Re-tapping an install link after a push to `main` will update an already-installed connector if its version number has incremented.
