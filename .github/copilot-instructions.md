@@ -1,16 +1,17 @@
 # Context
 
-This repository contains active Tapestry connectors for `x.feed`, `instagram.feed`, and `youtube.feed`. It uses Node.js CommonJS, Jest for tests, GNU Make for packaging, and `mise` with `.tool-versions` to pin Node 24.
+This repository contains Tapestry connectors for `anilist.feed`, `instagram.feed`, `letterboxd.feed`, `myanimelist.feed`, `x.feed`, and `youtube.feed`. It uses Node.js CommonJS, Jest for tests, GNU Make for packaging, and `mise` with `.tool-versions` to pin Node 24.
 
 The connectors in `examples/` are reference implementations only and should not be modified unless explicitly requested.
 
 # Repository Structure
 
-- `x.feed/`, `instagram.feed/`, `youtube.feed/` - active connector implementations
-- `x.feed.test/`, `instagram.feed.test/`, `youtube.feed.test/` - Jest suites for active connectors
+- `anilist.feed/`, `instagram.feed/`, `letterboxd.feed/`, `myanimelist.feed/`, `x.feed/`, `youtube.feed/` - connector implementations
+- `anilist.feed.test/`, `instagram.feed.test/`, `letterboxd.feed.test/`, `myanimelist.feed.test/`, `x.feed.test/`, `youtube.feed.test/` - Jest suites for the shipped connectors
+- `_shared/` - shared helper modules reused across connectors
 - `examples/` - reference connectors only
 - `.tapestry-docs/` - Tapestry API docs and guides
-- `Makefile` - connector discovery and `.tapestry` packaging
+- `Makefile` - auto-discovers top-level connector directories with `plugin.js` and packages them as `.tapestry` bundles
 
 # Bash commands
 - `mise exec -- npm test`: Run all Jest connector tests
@@ -19,8 +20,8 @@ The connectors in `examples/` are reference implementations only and should not 
 
 # Workflow
 - Always use `mise` and the `.tool-versions` file for runtime-sensitive commands.
-- Default to the smallest affected connector and test surface, but run `mise exec -- npm test` whenever shared parsing helpers or shared resources change.
-- Run `mise exec -- make list` when a task changes connector discovery assumptions.
+- Default to the smallest affected connector and test surface, but run `mise exec -- npm test` whenever `_shared/`, shared parsing helpers, or cross-connector test/build configuration changes.
+- Run `mise exec -- make list` when a task changes connector discovery assumptions or adds/removes top-level connectors.
 - Run `mise exec -- make build` when a task changes packaging inputs such as `plugin.js`, `plugin-config.json`, or bundled resources.
 - Do NOT modify anything under `examples/` unless explicitly asked.
 
