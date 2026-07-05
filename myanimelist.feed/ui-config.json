@@ -1,0 +1,25 @@
+{
+	"inputs": [
+		{
+			"name": "username",
+			"type": "text",
+			"prompt": "MyAnimeList Username",
+			"placeholder": "Xinil"
+		},
+		{
+			"name": "listType",
+			"type": "choices",
+			"prompt": "List Updates to Show",
+			"value": "Anime",
+			"choices": "Anime, Manga, Anime and manga",
+			"placeholder": "Choose which list updates to show"
+		},
+		{
+			"name": "debug",
+			"type": "switch",
+			"prompt": "Debug Mode",
+			"value": "off",
+			"placeholder": "When enabled, debug information will be logged to the console"
+		}
+	]
+}

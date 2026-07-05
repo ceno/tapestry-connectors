@@ -1,0 +1,14 @@
+{
+	"id": "letterboxd.feed",
+	"display_name": "Letterboxd - User Activity",
+	"service_name": "Letterboxd",
+	"default_color": "green",
+	"icon": "https://a.ltrbxd.com/logos/letterboxd-decal-dots-pos-rgb-500px.png",
+	"site": "https://letterboxd.com",
+	"item_style": "post",
+	"needs_verification": true,
+	"verify_variables": true,
+	"provides_attachments": true,
+	"minimum_app_version": "1.3",
+	"version": 1
+}

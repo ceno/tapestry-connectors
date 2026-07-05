@@ -1,0 +1,25 @@
+{
+	"inputs": [
+		{
+			"name": "username",
+			"type": "text",
+			"prompt": "AniList Username",
+			"placeholder": "PotatoWithThoughts"
+		},
+		{
+			"name": "activityType",
+			"type": "choices",
+			"prompt": "Activity to Show",
+			"value": "All activity",
+			"choices": "All activity, List updates only, Posts only",
+			"placeholder": "Choose which activity to show"
+		},
+		{
+			"name": "debug",
+			"type": "switch",
+			"prompt": "Debug Mode",
+			"value": "off",
+			"placeholder": "When enabled, debug information will be logged to the console"
+		}
+	]
+}

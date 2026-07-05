@@ -1,0 +1,11 @@
+{
+	"sites": [
+		"anilist.co"
+	],
+	"url": [
+		{
+			"extract": "/anilist.co/user/([A-Za-z0-9]+)/",
+			"variable": "username"
+		}
+	]
+}

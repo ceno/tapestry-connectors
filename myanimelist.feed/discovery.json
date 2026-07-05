@@ -1,0 +1,11 @@
+{
+	"sites": [
+		"myanimelist.net"
+	],
+	"url": [
+		{
+			"extract": "/myanimelist.net/profile/([A-Za-z0-9_-]+)/",
+			"variable": "username"
+		}
+	]
+}

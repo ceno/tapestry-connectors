@@ -1,0 +1,11 @@
+{
+	"sites": [
+		"letterboxd.com"
+	],
+	"url": [
+		{
+			"extract": "/letterboxd.com/([a-z0-9_]+)/",
+			"variable": "username"
+		}
+	]
+}

@@ -14,7 +14,10 @@
     "testMatch": [
       "**/x.feed.test/**/*.test.js",
       "**/instagram.feed.test/**/*.test.js",
-      "**/youtube.feed.test/**/*.test.js"
+      "**/youtube.feed.test/**/*.test.js",
+      "**/letterboxd.feed.test/**/*.test.js",
+      "**/myanimelist.feed.test/**/*.test.js",
+      "**/anilist.feed.test/**/*.test.js"
     ],
     "testEnvironment": "node",
     "verbose": true
