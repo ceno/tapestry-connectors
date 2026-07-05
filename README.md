@@ -4,27 +4,25 @@ Custom [Tapestry](https://usetapestry.com) connectors. Built and released automa
 
 ## Install
 
+> **One-time setup:** enable GitHub Pages for this repo first — go to **Settings › Pages**, set source to **Deploy from a branch**, branch `main`, folder `/docs`.  
+> The links below will work once GitHub Pages is active (usually within a minute of enabling it).
+
 ### All connectors at once
 
-Tap the link below on an iOS device with Tapestry installed. The Connector Finder will open and list every `.tapestry` file from the latest release:
+Tap the link below on an iOS device with Tapestry installed. The Connector Finder will open and list every connector from the latest release:
 
-**[Browse all connectors →](tapestry://add-connector?url=https%3A%2F%2Fgithub.com%2Fceno%2Ftapestry-connectors%2Freleases)**
-
-Or paste this URL manually into **Settings › Connectors › Add from URL**:
-
-```
-https://github.com/ceno/tapestry-connectors/releases
-```
+**[Browse all connectors →](https://ceno.github.io/tapestry-connectors/install/)**
 
 ### Individual connectors
 
-| Connector | Direct install link |
-|-----------|-------------------|
-| AniList – User Activity | [Install](tapestry://add-connector?url=https%3A%2F%2Fgithub.com%2Fceno%2Ftapestry-connectors%2Freleases%2Flatest%2Fdownload%2Fanilist.feed.tapestry) |
-| Instagram – Follow Account | [Install](tapestry://add-connector?url=https%3A%2F%2Fgithub.com%2Fceno%2Ftapestry-connectors%2Freleases%2Flatest%2Fdownload%2Finstagram.feed.tapestry) |
-| Letterboxd – User Activity | [Install](tapestry://add-connector?url=https%3A%2F%2Fgithub.com%2Fceno%2Ftapestry-connectors%2Freleases%2Flatest%2Fdownload%2Fletterboxd.feed.tapestry) |
-| MyAnimeList – User Updates | [Install](tapestry://add-connector?url=https%3A%2F%2Fgithub.com%2Fceno%2Ftapestry-connectors%2Freleases%2Flatest%2Fdownload%2Fmyanimelist.feed.tapestry) |
-| X.com (Twitter) – Follow Account | [Install](tapestry://add-connector?url=https%3A%2F%2Fgithub.com%2Fceno%2Ftapestry-connectors%2Freleases%2Flatest%2Fdownload%2Fx.feed.tapestry) |
-| YouTube – Follow Channel | [Install](tapestry://add-connector?url=https%3A%2F%2Fgithub.com%2Fceno%2Ftapestry-connectors%2Freleases%2Flatest%2Fdownload%2Fyoutube.feed.tapestry) |
+| Connector | Install |
+|-----------|---------|
+| AniList – User Activity | [Install](https://ceno.github.io/tapestry-connectors/install/anilist.html) |
+| Instagram – Follow Account | [Install](https://ceno.github.io/tapestry-connectors/install/instagram.html) |
+| Letterboxd – User Activity | [Install](https://ceno.github.io/tapestry-connectors/install/letterboxd.html) |
+| MyAnimeList – User Updates | [Install](https://ceno.github.io/tapestry-connectors/install/myanimelist.html) |
+| X.com (Twitter) – Follow Account | [Install](https://ceno.github.io/tapestry-connectors/install/x.html) |
+| YouTube – Follow Channel | [Install](https://ceno.github.io/tapestry-connectors/install/youtube.html) |
 
-> The direct-install links always resolve to the latest release via the `/releases/latest/download/` permalink. Re-tapping the link after a push to `main` will update an already-installed connector if its version number has incremented.
+> Each link opens a redirect page that immediately hands off to Tapestry. If Tapestry doesn't open, the page shows the plain URL to paste manually into **Settings › Connectors › Add from URL**.  
+> Re-tapping an install link after a push to `main` will update an already-installed connector if its version number has incremented.
