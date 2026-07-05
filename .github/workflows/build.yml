@@ -60,3 +60,4 @@ jobs:
           name: feeds ${{ steps.version.outputs.version }}
           files: "*.tapestry"
           generate_release_notes: true
+          make_latest: true
