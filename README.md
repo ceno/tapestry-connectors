@@ -15,16 +15,16 @@ Tap the link below on an iOS device with Tapestry installed. The Connector Finde
 
 ### Individual connectors
 
-The install buttons below reuse the remote `icon` URL already defined in each connector's `plugin-config.json`, so this repo does not need to store service artwork.
+The install badges below are built from Shields.io badges and remote service logos, so this repo does not need to store service artwork.
 
 | Connector | Install |
 |-----------|---------|
-| AniList – User Activity | <a href="https://ceno.github.io/tapestry-connectors/install/anilist.html"><kbd><img src="https://anilist.co/img/icons/apple-touch-icon-152x152.png" alt="" height="16"> Install AniList</kbd></a> |
-| Instagram – Follow Account | <a href="https://ceno.github.io/tapestry-connectors/install/instagram.html"><kbd><img src="https://www.instagram.com/static/images/ico/favicon-192.png/68d99ba29cc8.png" alt="" height="16"> Install Instagram</kbd></a> |
-| Letterboxd – User Activity | <a href="https://ceno.github.io/tapestry-connectors/install/letterboxd.html"><kbd><img src="https://a.ltrbxd.com/logos/letterboxd-decal-dots-pos-rgb-500px.png" alt="" height="16"> Install Letterboxd</kbd></a> |
-| MyAnimeList – User Updates | <a href="https://ceno.github.io/tapestry-connectors/install/myanimelist.html"><kbd><img src="https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png" alt="" height="16"> Install MyAnimeList</kbd></a> |
-| X.com (Twitter) – Follow Account | <a href="https://ceno.github.io/tapestry-connectors/install/x.html"><kbd><img src="https://abs.twimg.com/favicons/twitter.3.ico" alt="" height="16"> Install X</kbd></a> |
-| YouTube – Follow Channel | <a href="https://ceno.github.io/tapestry-connectors/install/youtube.html"><kbd><img src="https://www.youtube.com/s/desktop/01530da7/img/favicon_144x144.png" alt="" height="16"> Install YouTube</kbd></a> |
+| AniList – User Activity | [![AniList Install](https://img.shields.io/badge/AniList-Install-555555?style=flat-square&logo=anilist&logoColor=white&labelColor=02A9FF)](https://ceno.github.io/tapestry-connectors/install/anilist.html) |
+| Instagram – Follow Account | [![Instagram Install](https://img.shields.io/badge/Instagram-Install-555555?style=flat-square&logo=instagram&logoColor=white&labelColor=E4405F)](https://ceno.github.io/tapestry-connectors/install/instagram.html) |
+| Letterboxd – User Activity | <a href="https://ceno.github.io/tapestry-connectors/install/letterboxd.html"><img src="https://a.ltrbxd.com/logos/letterboxd-decal-dots-pos-rgb-500px.png" alt="" width="20" height="20"><img src="https://img.shields.io/badge/Letterboxd-Install-555555?style=flat-square&labelColor=14181C" alt="Letterboxd Install"></a> |
+| MyAnimeList – User Updates | [![MyAnimeList Install](https://img.shields.io/badge/MyAnimeList-Install-555555?style=flat-square&logo=myanimelist&logoColor=white&labelColor=2E51A2)](https://ceno.github.io/tapestry-connectors/install/myanimelist.html) |
+| X.com (Twitter) – Follow Account | [![X Install](https://img.shields.io/badge/X-Install-555555?style=flat-square&logo=x&logoColor=white&labelColor=111111)](https://ceno.github.io/tapestry-connectors/install/x.html) |
+| YouTube – Follow Channel | [![YouTube Install](https://img.shields.io/badge/YouTube-Install-555555?style=flat-square&logo=youtube&logoColor=white&labelColor=FF0000)](https://ceno.github.io/tapestry-connectors/install/youtube.html) |
 
 > Each link opens a redirect page that immediately hands off to Tapestry. If Tapestry doesn't open, the page shows the plain URL to paste manually into **Settings › Connectors › Add from URL**.  
 > Re-tapping an install link after a push to `main` will update an already-installed connector if its version number has incremented.
