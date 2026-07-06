@@ -54,6 +54,7 @@ async function verify() {
 async function load() {
     console.log("Load function is called!!")
     const debugMode = (typeof debug !== 'undefined' && debug === "on");
+    const filter = contentFilter || "all";
 
     try {
         const headers = buildRequestHeaders(getSessionId());
@@ -61,6 +62,7 @@ async function load() {
         if (debugMode) {
             console.log("Debug: site =", site);
             console.log("Debug: handle =", handle);
+            console.log("Debug: contentFilter =", filter);
         }
 
         const json = await fetchProfileData(headers, debugMode);
@@ -69,11 +71,18 @@ async function load() {
 
         if (debugMode) {
             console.log("Debug: Profile:", result.profile ? result.profile.name : "null");
-            console.log("Debug: Posts found:", result.posts.length);
+            console.log("Debug: Posts found (before filter):", result.posts.length);
         }
 
-        // Build Tapestry Items from normalized posts
-        const items = result.posts.map((post) => {
+        // Filter posts based on content type
+        const filteredPosts = result.posts.filter(post => shouldIncludePost(post, filter));
+
+        if (debugMode) {
+            console.log("Debug: Posts found (after filter):", filteredPosts.length);
+        }
+
+        // Build Tapestry Items from filtered posts
+        const items = filteredPosts.map((post) => {
             const item = buildPostItem(post, handle);
             if (result.profile?.avatar && item.author) {
                 item.author.avatar = result.profile.avatar;
