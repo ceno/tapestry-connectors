@@ -491,14 +491,29 @@ function xload(jsonObject, debug = false) {
                 if (displayName.startsWith("@")) {
                     displayName = displayName.substring(1); // Remove @ for display name
                 }
-                identity = Identity.createWithName(displayName);
-                identity.username = authorName.startsWith("@") ? authorName : "@" + authorName;
-                // Build profile URI from the item link (extract base xcancel URL)
-                if (item.link) {
-                    const linkParts = item.link.split("/");
-                    if (linkParts.length >= 4) {
-                        identity.uri = normalizeXCancelUrl(linkParts.slice(0, 4).join("/")); // e.g., https://xcancel.com/digitarald
-                        // If this post is from the feed owner, use the channel image as avatar
+                
+                // Skip creating identity if displayName is empty or invalid
+                if (displayName && displayName.length > 0) {
+                    identity = Identity.createWithName(displayName);
+                    identity.username = authorName.startsWith("@") ? authorName : "@" + authorName;
+                    
+                    // Build profile URI from the item link (extract base xcancel URL)
+                    if (item.link) {
+                        const linkParts = item.link.split("/");
+                        // Check if the link is in /i/status/ format (anonymous/API format)
+                        // In this case, use the displayName to build the profile URI
+                        if (linkParts.length >= 5 && linkParts[3] === "i" && linkParts[4] === "status") {
+                            // Link is in format: https://xcancel.com/i/status/{id}
+                            // Build profile URI using the displayName: https://xcancel.com/{displayName}
+                            const baseUrl = linkParts.slice(0, 3).join("/"); // https://xcancel.com
+                            identity.uri = normalizeXCancelUrl(`${baseUrl}/${displayName}`);
+                        }
+                        else if (linkParts.length >= 4) {
+                            // Normal format: https://xcancel.com/{username}/status/{id}
+                            identity.uri = normalizeXCancelUrl(linkParts.slice(0, 4).join("/")); // e.g., https://xcancel.com/digitarald
+                        }
+                        
+                        // Set avatar
                         if (channelImage && feedUrl) {
                             const feedOwner = feedUrl.split("/").pop(); // e.g., "pierceboggan"
                             if (displayName.toLowerCase() === feedOwner.toLowerCase()) {
